@@ -45,6 +45,12 @@ class EmptyPage extends StatelessWidget {
       "buttonText": "",
       "image": "assets/images/emptyState/NoDocuments.png",
     },
+    {
+      "text": "Sargytlarym",
+      "description": "Sargyt etmek üçin ulgama giriň we sebediňize haryt goşuň",
+      "buttonText": "Ulgama girmek",
+      "image": "assets/images/emptyState/NoItemsCart.png",
+    },
   ];
 
   Widget build(BuildContext context) {

@@ -85,6 +85,7 @@ class _SignFormState extends State<SignForm> {
                       UserModel().loginUser(phoneNumber: _phoneController.text, password: _passwordController.text).then((user) {
                         if (user != null) {
                           Auth().login(name: user.name, uid: user.id, phone: user.phoneNumber);
+
                           RestartWidget.restartApp(context);
                         } else {
                           ScaffoldMessenger.of(context)

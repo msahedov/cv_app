@@ -27,6 +27,7 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
   bool isEdit = false;
   TextEditingController _nameController = new TextEditingController(), _oldpassController = new TextEditingController(), _newpassController = new TextEditingController();
   final GlobalKey<FormState> _passdialogFormKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var _image;
   AnimationController anmController;
   Animation<double> fadeAnm;
@@ -72,6 +73,7 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
     final TextStyle _style = TextStyle(color: Colors.grey[500], fontFamily: popPinsRegular);
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: primaryAppBar(actions: [
           IconButton(
               icon: AnimatedSwitcher(
@@ -122,7 +124,7 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
                                   borderRadius: BorderRadius.circular(60),
                                   child: CircleAvatar(
                                     radius: 60,
-                                    child: snapshot.data.image == "no-photo.jpg"
+                                    child: snapshot.data.image == null
                                         ? Container(
                                             width: 50,
                                             height: 50,
@@ -141,7 +143,7 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
                                         bottom: 0,
                                         child: InkWell(
                                           onTap: () => primaryDialog(actions: [
-                                            TextButton(onPressed: () => Navigator.pop(context), child: Text('Ýap', style: buttonTextStyle)),
+                                            TextButton(onPressed: () => Navigator.pop(context), child: Text(AppLocalizations.of(context).closeBtn, style: buttonTextStyle)),
                                           ], content: [
                                             DefaultButton(
                                                 text: AppLocalizations.of(context).cameraBtn,
@@ -167,36 +169,18 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
                                     : SizedBox(),
                               ],
                             ),
-                            isEdit
-                                ? TextFormField(
-                                    controller: _nameController,
-                                    style: buttonTextStyle,
-                                    decoration: InputDecoration(
-                                        suffix: IconButton(
-                                          icon: Icon(Icons.edit, color: kPrimaryColor_1),
-                                          onPressed: () {},
-                                        ),
-                                        labelText: AppLocalizations.of(context).lblName,
-                                        labelStyle: _style),
-                                  )
-                                : TextFormField(
-                                    initialValue: snapshot.data.name,
-                                    style: buttonTextStyle,
-                                    enabled: false,
-                                    decoration: InputDecoration(labelText: AppLocalizations.of(context).lblName, labelStyle: _style),
-                                  ),
-
+                            TextFormField(
+                              initialValue: snapshot.data.name,
+                              style: buttonTextStyle,
+                              enabled: false,
+                              decoration: InputDecoration(labelText: AppLocalizations.of(context).lblName, labelStyle: _style),
+                            ),
                             TextFormField(
                               initialValue: "+993 ${snapshot.data.phoneNumber}",
                               style: buttonTextStyle,
                               enabled: false,
                               decoration: InputDecoration(labelText: AppLocalizations.of(context).lblPhoneNum, labelStyle: _style),
                             ),
-                            // TextFormField(
-                            //   style: buttonTextStyle,
-                            //   enabled: false,
-                            //   decoration: InputDecoration(labelText: AppLocalizations.of(context).lblLocation, labelStyle: _style),
-                            // ),
                             isEdit
                                 ? Align(
                                     alignment: Alignment.centerRight,
@@ -252,7 +236,12 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
                                                         if (isSucces) {
                                                           UserModel().loginUser(phoneNumber: snapshot.data.phoneNumber, password: _newpassController.text).then((value) {
                                                             if (value != null) {
-                                                              showMessage(AppLocalizations.of(context).changePassSnakPos, context);
+                                                              Auth().login(name: value.name, uid: value.id, phone: value.phoneNumber);
+                                                              Navigator.pop(context);
+                                                              Future.delayed(Duration(milliseconds: 500), () {
+                                                                _scaffoldKey.currentState.setState(() {});
+                                                                showMessage(AppLocalizations.of(context).changePassSnakPos, context);
+                                                              });
                                                             }
                                                           });
                                                         } else {

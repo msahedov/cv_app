@@ -33,6 +33,7 @@ class UserModel {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       },
     );
+
     if (response.statusCode == 200)
       return UserModel.fromJson(jsonDecode(response.body)["data"]);
     else
@@ -92,7 +93,7 @@ class UserModel {
           HttpHeaders.authorizationHeader: 'Bearer $token',
         },
         body: jsonEncode(<String, String>{"oldPassword": oldPassword, "newPassword": newPassword}));
-    if (response.statusCode == 200) {
+    if (response.statusCode == 204) {
       return true;
     } else
       return false;

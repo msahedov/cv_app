@@ -357,7 +357,6 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
   }
 
   Widget build(BuildContext context) {
-    print(_connectionStatus);
     return _connectionStatus == "ConnectivityResult.none"
         ? NoConnnectionPage()
         : Scaffold(

@@ -27,7 +27,7 @@ class ProfilPage extends StatefulWidget {
 class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
   bool _isLogin = false;
   int _uid;
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   void getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     bool isLogin = _prefs.getBool("isLoggedIn");
@@ -207,7 +207,6 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
     ];
 
     final divider = Divider(thickness: 0.6, color: Colors.grey[300], height: 0.2, indent: 10.0, endIndent: 10.0);
-
     //ignore: deprecated_member_use
     FlatButton primaryButton({String text, Function onPressed, Widget child, Radius topRadius, Radius bottomRadius}) => FlatButton(
           color: Colors.white,
@@ -235,6 +234,7 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
 
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: appBar,
         backgroundColor: textFieldbackColor,
         body: SingleChildScrollView(
@@ -277,8 +277,7 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
                               UserModel().logOut().then((isSucces) {
                                 if (isSucces) {
                                   Auth().logout();
-                                  ScaffoldMessenger.of(context)
-                                    ..removeCurrentSnackBar()
+                                  _scaffoldKey.currentState
                                     ..showSnackBar(SnackBar(
                                         content: Text(AppLocalizations.of(context).logOutPos, style: TextStyle(fontFamily: popPinsRegular, fontSize: 13)),
                                         action: SnackBarAction(
@@ -287,14 +286,15 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
                                         )));
                                   RestartWidget.restartApp(context);
                                 } else {
-                                  ScaffoldMessenger.of(context)
-                                    ..removeCurrentSnackBar()
-                                    ..showSnackBar(SnackBar(
+                                  Navigator.pop(context);
+                                  Future.delayed(Duration(milliseconds: 500), () {
+                                    _scaffoldKey.currentState.showSnackBar(SnackBar(
                                         content: Text(AppLocalizations.of(context).logOutNeg, style: TextStyle(fontFamily: popPinsRegular, fontSize: 13)),
                                         action: SnackBarAction(
                                           label: "OK",
                                           onPressed: () => ScaffoldMessenger.of(context).removeCurrentSnackBar(),
                                         )));
+                                  });
                                 }
                               });
                             },
