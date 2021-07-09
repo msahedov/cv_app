@@ -1,0 +1,12 @@
+{
+    "editor.defaultFormatter": "Dart-Code.dart-code",
+
+    "editor.wordWrapColumn": 200,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "dart.lineLength": 200,
+    "[dart]": {
+        "editor.defaultFormatter": "Dart-Code.dart-code"
+    }
+   
+}

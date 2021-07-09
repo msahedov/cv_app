@@ -1,0 +1,108 @@
+{  
+    "@@locale":"ru",
+    "profil":"Мои профиль",
+    "myaccount":"Мои профиль",
+    "myorders":"Мои заказы",
+    "notifications":"Уведомления",
+    "settings":"Настройки",
+    "logout":"Выйти",
+    "login":"Вoйти",
+    "logoutQuiz":"Вы действительно хотите выйти?",
+    "logOutPos":"Вы вышли из системы",
+    "logOutNeg":"Не удалось. Попробуйте еще раз",
+    "langBtn":"Язык",
+    "version":"Версия",
+    "rating_play_store":"Оцените нас в Play Маркете",
+    "select_lang":"Выберите язык",
+    "closeBtn":"Закрыть",
+    "yes":"Да",
+    "no":"Нет",
+   
+      "lblName":"Имя",
+      "lblPhoneNum":"Телефонный номер",
+      "lblLocation":"Место расположения",
+      "changePassBtn":"Изменить пароль",
+      "valcurrentpass":"Введите текущий пароль",
+      "lblCurrentPass":"Текущий пароль",
+      "valnewpass":"Введите ваш новый пароль",
+      "lblNewPass":"Новый пароль",
+      "changePassSnakPos":"Ваш пароль был изменен",
+      "changePassSnakNeg":"Пароль не изменился. Пожалуйста, попробуйте еще раз",
+      "changePassPos":"Изменить",
+      "nameAndPhotoSucces":"Ваше имя и фотография изменены",
+      "nameAndPhotoNotSucces":"Профиль не изменен. Пожалуйста, попробуйте еще раз",
+      "changePhotoNotSucces":"Изображения не выбрана",
+      "cameraBtn":"Камера",
+      "galleryBtn":"Галерея",
+      "titleSelect":"Выберите",
+
+    
+      "orderAdress":"Адрес",
+      "paymentMethod":"Способ оплаты",
+      "deleteOrderQuiz":"Вы действительно хотите удалить заказ?",
+      "deleteOrder":"Удалить заказ",
+      "deleteOrderSuccesSnak":"Заказ отменен",
+      "deleteOrderNotSuccesSnak":"Не удалось. Попробуйте еще раз",
+      "totalPrice":"Итоговая цена :",
+      "orderIsDelivired":"Товар доставлен",
+      "orderIsNotDelivired":"Ожидающий",
+
+      "hintNameSignUp":"Введите ваше имя",
+      "lblPhoneNumber":"Телефонный номер",
+      "lblPassword":"Пароль",
+      "hintPassword":"Введите свой пароль",
+      "lblConfirmPass":"Подтвердите пароль",
+      "hintConfirmPass":"Введите пароль еще раз",
+      "signUpBtnName":"Зарегистрироваться",
+      "signInBtnName":"Войти",
+      "signUpNotSuccesSnack":"Не удалось. Попробуйте еще раз",
+      "kPhoneNullError":"Введите номер телефона",
+      "kInvalidPhoneError":"Ваш номер телефона неверен",
+      "kPassNullError":"Введите свой пароль",
+      "kShortPassError":"Ваш пароль короткий",
+      "kMatchPassError":"Ваш пароль не совпадает",
+      "kNamelNullError":"Введите ваше имя",
+      "kAddressNullError":"Введите ваш адрес",
+      "kAddressNameNullError":"Введите адресное имя",
+      "signIncontext":"Введите свой номер телефона и \n пароль и нажмите кнопку",
+     
+      
+       
+
+       "homePageMarkets":"Маркети",
+       "newProducts":"Новые продукты",
+       "arzanladys":"Скидки",
+       "allBtn":"Все",
+       "searchMarkets":"Поиск",
+       
+      
+       "categories":"Категории", 
+ 
+         
+       "myCart":"Корзина",
+       "goToOrder":"Заказат",
+       "lblorderAdressCart":"Адрес",
+       "hintOrderAdressCart":"Введите ваш адрес",
+       "valOrderAdressCart":"Пожалуйста, введите ваш адрес",
+       "orderCheck":"Примечание",
+       "ussagerek":"Нужен мастер",
+       "hintUssaGornus":"",
+       "valUssaGerek":"",
+       "paymentmethodNagt":"",
+       "paymentmethodKart":"",
+
+
+
+           
+        "favoritespagetitle":"Избранное",
+        "addToCart":"Добавить в корзину",
+        "seller":"Продавец" ,
+     
+        "cartPageTitle":"Корзина",
+        "orderingBtn":"Заказать",
+        "aboutUs":"О нас"
+ 
+      
+
+    
+}
