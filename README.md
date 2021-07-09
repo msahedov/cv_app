@@ -1,4 +1,4 @@
-# ussa mobile app
+# ssu ussa mobile
 
 A new Flutter application.
 
