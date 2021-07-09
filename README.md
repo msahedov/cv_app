@@ -1,4 +1,4 @@
-# e_commerce_app
+# ussa mobile app
 
 A new Flutter application.
 
