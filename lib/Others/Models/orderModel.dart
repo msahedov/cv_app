@@ -143,7 +143,7 @@ class Order {
       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
-    print(jsonDecode(response.body)["data"]);
+
     if (response.statusCode == 200) {
       return Order.fromJsonByID(jsonDecode(response.body)["data"]);
     } else

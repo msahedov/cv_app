@@ -14,7 +14,6 @@ import 'package:e_commerce_app/Others/animations/Slide_Animation_Index.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -32,81 +31,33 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin {
   bool isOpen = false;
   bool _isLogin = false;
-  int len;
-  int itemLength;
-  int userIdd;
+  int userId;
+  double _totalPrice = 0.0;
   AnimationController slideAnimationIndex;
   SlidableController controller = SlidableController();
   String _connectionStatus = 'Unknown';
-
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      print(e.toString());
+
+  double totalPrice(List<Cart> carts) {
+    double totalPrice = 0.0;
+    for (int i = 0; i < carts.length; i++) {
+      double price = double.tryParse(carts[i].price);
+      totalPrice += price * carts[i].qty;
     }
-    if (!mounted) {
-      return Future.value(null);
-    }
-    return _updateConnectionStatus(result);
+
+    return totalPrice;
   }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        setState(() => _connectionStatus = result.toString());
-        break;
-      default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
-        break;
-    }
-  }
-
-  void getUserData() async {
-    SharedPreferences _prefs = await SharedPreferences.getInstance();
-    bool isLogin = _prefs.getBool("isLoggedIn");
-    int uid = _prefs.getInt('uid');
-    setState(() {
-      userIdd = uid;
-      _isLogin = isLogin == null ? false : isLogin;
-    });
-    //  getCartItemsLenngth();
-  }
-
-  // void getCartItemsLenngth() async {
-  //   List<Cart> carts = await Cart().getAllItemsFromCart(userId: userIdd);
-  //   if (this.mounted) {
-  //     len = carts.length;
-  //     setState(() {});
-  //   }
-  // }
-
-  double totalPrice;
-  // Future<double> _totalPrice(List<Cart> cartItems) async {
-  //   double totalPrice = 0.0;
-  //   for (int i = 0; i < cartItems.length; i++) {
-  //     int productId = int.parse(cartItems[i].productId);
-  //     Product product = await Product().getProductById(productId);
-  //     double price = double.parse(product.price != null ? product.price : "0.0");
-  //     totalPrice += price * cartItems[i].qty;
-  //   }
-  //   return totalPrice;
-  // }
 
   void initState() {
     super.initState();
     initConnectivity();
-    Cart().getAllItemsFromCart(userId: 6);
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     Future.delayed(Duration(milliseconds: 500), () {
-      isOpen = true;
-      if (this.mounted) {
-        setState(() {});
+      if (this.mounted && !isOpen) {
+        setState(() {
+          isOpen = true;
+        });
       }
     });
     getUserData();
@@ -130,51 +81,16 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
           presetFontSizes: [24, 22, 20, 18, 16, 14, 12, 10, 8, 6],
           style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
         ),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.delete_outline, size: 30, color: kPrimaryColor_1),
+              onPressed: () {
+                Cart().emptyCartRequest().whenComplete(() {
+                  setState(() {});
+                });
+              })
+        ],
       );
-
-  Widget floatingActionButton() {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15, right: 0),
-      width: 170,
-      height: 50,
-      child: FloatingActionButton(
-        elevation: 1,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        isExtended: true,
-        onPressed: () {
-          Navigator.of(context).push(CupertinoPageRoute(
-              builder: (context) => ShippingAdress(
-                    userId: userIdd,
-                    bahasy: totalPrice.toStringAsFixed(2),
-                  )));
-        },
-        backgroundColor: kPrimaryColor_1,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Text(
-                  AppLocalizations.of(context).orderingBtn,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor),
-                ),
-                SizedBox(
-                  width: 8,
-                ),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: kPrimaryColor,
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget cartCard({Cart cart, int index}) {
     Size size = MediaQuery.of(context).size;
@@ -188,7 +104,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
             IconSlideAction(color: textFieldbackColor, closeOnTap: true, icon: Icons.close, onTap: () {}),
             GestureDetector(
               onTap: () {
-                Cart().removeProductFromCart(userId: userIdd, productId: cart.id).then((isSucces) {
+                Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
                   if (isSucces) {
                     showMessage("Haryt sebediňizden aýryldy", context);
                     setState(() {
@@ -212,7 +128,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
           secondaryActions: <Widget>[
             GestureDetector(
               onTap: () {
-                Cart().removeProductFromCart(userId: userIdd, productId: cart.id).then((isSucces) {
+                Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
                   if (isSucces) {
                     showMessage("Haryt sebediňizden aýryldy", context);
                     setState(() {
@@ -277,7 +193,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                           SizedBox(
                             width: double.infinity,
                             child: AutoSizeText(
-                              cart.name_tm ?? "Haryt",
+                              cart.name_tm,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               stepGranularity: 2,
@@ -298,7 +214,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     text: new TextSpan(
-                                      text: '${cart.price ?? "0"}',
+                                      text: '${cart.price}',
                                       style: TextStyle(color: Colors.black, fontSize: 22, fontFamily: popPinsSemiBold),
                                       children: <TextSpan>[
                                         new TextSpan(
@@ -313,29 +229,22 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
                                   child: GestureDetector(
                                       onTap: () {
-                                        if (userIdd == null) {
+                                        if (userId == null) {
                                           showMessage("Haryda halanlaryňyza goşmak üçin ulgama giriň !", context);
                                         } else {
-                                          if (userIdd != null) {
+                                          if (userId != null) {
                                             setState(() {
                                               Product().addToFavoriteByID(cart.id);
                                               showMessage("Haryt halanlaryňyza goşuldy !", context);
                                             });
                                           } else {
                                             setState(() {
-                                              Favorites().deleteFavoriteById(productId: cart.id, userId: userIdd);
+                                              Favorites().deleteFavoriteById(productId: cart.id, userId: userId);
                                               showMessage("Haryda halanlaryňyzda aýryldy !", context);
                                             });
                                           }
                                         }
                                       },
-                                      // child: itemLike[index]["isLiked"] == "false"
-                                      //     ? Icon(
-                                      //         Icons.favorite_border,
-                                      //         color: kPrimaryColor_1,
-                                      //         size: 30,
-                                      //       )
-                                      //     :
                                       child: Icon(
                                         Icons.favorite,
                                         color: kPrimaryColor,
@@ -350,7 +259,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                               GestureDetector(
                                 onTap: () {
                                   if (cart.qty <= 0) {
-                                    Cart().removeProductFromCart(userId: userIdd, productId: cart.id).then((isSucces) {
+                                    Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
                                       print(isSucces);
                                       if (isSucces) {
                                         setState(() {});
@@ -361,7 +270,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   } else {
                                     int productCount = cart.qty;
                                     --productCount;
-                                    Cart().addProductToCartById(userId: userIdd, productId: cart.id, qty: productCount).then((isSucces) {
+                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).then((isSucces) {
                                       if (isSucces) {
                                         setState(() {});
                                       }
@@ -399,7 +308,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   if (countInStock > cart.qty) {
                                     int productCount = cart.qty;
                                     ++productCount;
-                                    Cart().addProductToCartById(userId: userIdd, productId: cart.id, qty: productCount).then((isSucces) {
+                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).then((isSucces) {
                                       if (isSucces) {
                                         setState(() {});
                                       }
@@ -440,13 +349,14 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
         : Scaffold(
             backgroundColor: textFieldbackColor,
             appBar: appBar(),
-            //floatingActionButton: (_isLogin && len > 0) ? floatingActionButton() : SizedBox.shrink(),
             body: _isLogin
                 ? isOpen
                     ? FutureBuilder<List<Cart>>(
-                        future: Cart().getAllItemsFromCart(userId: userIdd).then((value) {
-                          itemLength = value.length;
+                        future: Cart().getAllItemsFromCart(userId: userId).then((value) {
+                          _totalPrice = totalPrice(value);
                           return value;
+                        }).whenComplete(() {
+                          setState(() {});
                         }),
                         builder: (context, snapshot) {
                           if (snapshot.hasError)
@@ -456,11 +366,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                               },
                             );
                           else if (snapshot.hasData) {
-                            // if (snapshot.data.length == 0) {
-                            //   // getCartItemsLenngth();
-                            // }
-
-                            return itemLength > 0
+                            return snapshot.data.isNotEmpty
                                 ? ListView.builder(
                                     physics: BouncingScrollPhysics(),
                                     itemCount: snapshot.data.length,
@@ -480,7 +386,6 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                                         })),
                                               );
                                             else if (_snapshot.hasData) {
-                                              // int id = int.parse(snapshot.data[index].id);
                                               return Slide_Animation_mine(
                                                 index: index,
                                                 animationController: slideAnimationIndex,
@@ -500,7 +405,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                     selectedIndex: 0,
                                   );
                           }
-                          return shimmerCartListView(context, itemLength);
+                          return shimmerCartListView(context, 10);
                         })
                     : Center(
                         child: spinKit(),
@@ -509,6 +414,71 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                     selectedIndex: 1,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
                   ),
+            persistentFooterButtons: [
+              Container(
+                  width: MediaQuery.of(context).size.width - 150,
+                  child: Text(
+                    "Jemi: $_totalPrice tmt",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
+                  )),
+              SizedBox(
+                width: 110,
+                child: FlatButton(
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  minWidth: 120,
+                  height: 45,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                  color: kPrimaryColor_1,
+                  child: Text(
+                    AppLocalizations.of(context).orderingBtn,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor),
+                  ),
+                  onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                      builder: (context) => ShippingAdress(
+                            userId: userId,
+                            bahasy: _totalPrice.toString(),
+                          ))),
+                ),
+              ),
+            ],
           );
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {
+      print(e.toString());
+    }
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'Failed to get connectivity.');
+        break;
+    }
+  }
+
+  void getUserData() async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    bool isLogin = _prefs.getBool("isLoggedIn");
+    int uid = _prefs.getInt('uid');
+    setState(() {
+      userId = uid;
+      _isLogin = isLogin == null ? false : isLogin;
+    });
   }
 }

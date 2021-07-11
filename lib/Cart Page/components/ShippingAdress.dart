@@ -139,7 +139,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                       ),
                     ),
                     AutoSizeText(
-                      'Sargytlarym',
+                      'Sargyt Etmek',
                       overflow: TextOverflow.ellipsis,
                       stepGranularity: 2,
                       textAlign: TextAlign.center,
@@ -434,6 +434,17 @@ class _ShippingAdressState extends State<ShippingAdress> {
                             Navigator.pop(context);
                             Navigator.push(context, MaterialPageRoute(builder: (context) => OrdersPage(title: AppLocalizations.of(context).myorders)));
                           });
+                        } else {
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                                content: Text("Sargyt etmek üçin sebediňize haryt goşuň", style: TextStyle(fontFamily: popPinsRegular, fontSize: 15, color: kPrimaryColor)),
+                                backgroundColor: kPrimaryColor_1,
+                                action: SnackBarAction(
+                                  textColor: kPrimaryColor,
+                                  label: "OK",
+                                  onPressed: () => ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                                )));
                         }
                       });
                     }

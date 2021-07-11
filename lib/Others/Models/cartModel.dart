@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:e_commerce_app/Others/Models/productModel.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'authModel.dart';
 
@@ -33,7 +33,7 @@ class Cart {
   factory Cart.fromJson(Map<String, dynamic> json) {
     List image = json["images"] as List;
     List<dynamic> _images = image.map((value) => value).toList();
-
+    int _qty = int.tryParse(json["carts"]["quantity"]);
     return Cart(
       id: json["id"],
       subCategoryId: json["subCategoryId"],
@@ -48,6 +48,7 @@ class Cart {
       name_tm: json["name_tm"],
       name_ru: json["name_ru"],
       brand: json["brand"],
+      qty: _qty,
       description_tm: json["description_tm"],
       description_ru: json["description_ru"],
       images: _images,
@@ -84,7 +85,7 @@ class Cart {
       },
       body: jsonEncode(<String, int>{"quantity": qty}),
     );
-    if (response.statusCode == 200)
+    if (response.statusCode == 204)
       return true;
     else
       return false;

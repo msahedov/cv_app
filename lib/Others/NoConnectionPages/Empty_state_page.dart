@@ -10,7 +10,7 @@ class EmptyPage extends StatelessWidget {
 
   final List<Map<String, String>> page = [
     {
-      "text": "Sebadiňiz boş",
+      "text": "Sebediňiz boş",
       "description": "Sargyt etmek üçin sebediňize haryt goşuň",
       "buttonText": "",
       "image": "assets/images/emptyState/NoItemsCart.png",
@@ -28,20 +28,20 @@ class EmptyPage extends StatelessWidget {
       "image": "assets/images/emptyState/NoItemsCart.png",
     },
     {
-      "text": "Halanlaryňyz boş !",
+      "text": "Halanlaryňyz boş!",
       "description": "Harytlary soň görmek üçin halanlaryňyza goşuň",
       "buttonText": "",
       "image": "assets/images/emptyState/Done.png",
     },
     {
-      "text": "Haryt tapylmady !",
+      "text": "Haryt tapylmady!",
       "description": "Şu wagtlykça şu kategoriýada harytlar ýok",
       "buttonText": "",
       "image": "assets/images/emptyState/NoDocuments.png",
     },
     {
       "text": "Haryt ýok",
-      "description": "Hiç hili haryt tapylmady ",
+      "description": "Hiç hili haryt tapylmady",
       "buttonText": "",
       "image": "assets/images/emptyState/NoDocuments.png",
     },

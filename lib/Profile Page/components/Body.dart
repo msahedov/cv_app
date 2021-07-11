@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:e_commerce_app/Login%20Page/login_page.dart';
 import 'package:e_commerce_app/Others/Models/authModel.dart';
 import 'package:e_commerce_app/Others/l10n/locale_provider.dart';
@@ -173,14 +174,10 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
       centerTitle: true,
       title: FadeTransition(
         opacity: fadeAnimation,
-        child: Text(
+        child: AutoSizeText(
           AppLocalizations.of(context).profil,
-          style: TextStyle(
-            color: kPrimaryColor_1,
-            fontWeight: FontWeight.bold,
-            fontFamily: popPinsRegular,
-            fontSize: 20,
-          ),
+          presetFontSizes: [24, 22, 20, 18, 16, 14, 12, 10, 8, 6],
+          style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
         ),
       ),
       elevation: 0.0,

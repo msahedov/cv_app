@@ -515,7 +515,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
 
   Widget gridView(int subcategoryId) {
     return FutureBuilder<List<Product>>(
-        future: Product().getAllProducts(parametr: {"subCategoryId": "$subcategoryId"}),
+        future: Product().getAllProducts(parametr: {"subCategoryId": subcategoryId}),
         builder: (context, snapshot) {
           if (snapshot.hasError)
             return NoDataErrorPage(
