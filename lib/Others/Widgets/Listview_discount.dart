@@ -14,19 +14,6 @@ class ListviewDiscount extends StatefulWidget {
 }
 
 class _ListviewDiscountState extends State<ListviewDiscount> {
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    Product().getAllProductsMaxValue().then((value) {
-      maxValue = value;
-      maxValue > len ? len = 10 : len = maxValue;
-    });
-  }
-
   Widget hasError() {
     return SizedBox(
       height: 200,
@@ -45,16 +32,6 @@ class _ListviewDiscountState extends State<ListviewDiscount> {
     );
   }
 
-  // void getMore() {
-  //   Future.delayed(Duration(seconds: 1), () {
-  //     len += 10;
-  //     if (len > maxValue) len = maxValue;
-  //     if (this.mounted) {
-  //       setState(() {});
-  //     }
-  //   });
-  // }
-
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,13 +43,7 @@ class _ListviewDiscountState extends State<ListviewDiscount> {
                   )));
         }, context),
         FutureBuilder<List<Product>>(
-            future: Product().getAllProducts(parametr: ({"sort": "-discount", "limit": "$len"})).then((value) {
-              itemList.clear();
-              value.forEach((element) {
-                itemList.add(element);
-              });
-              return value;
-            }),
+            future: Product().getAllProducts(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasError)
                 return hasError();
@@ -82,35 +53,22 @@ class _ListviewDiscountState extends State<ListviewDiscount> {
                     margin: EdgeInsets.only(bottom: 20),
                     width: double.infinity,
                     child: ListView.builder(
-                        itemCount: itemList.length,
+                        itemCount: snapshot.data.length,
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
-                          // if (maxValue > len) {
-                          //   if (index + 1 == itemList.length) {
-                          //     getMore();
-                          //     return Row(
-                          //       children: [
-                          //         shimmerProductCard(),
-                          //         shimmerProductCard(),
-                          //         shimmerProductCard(),
-                          //         shimmerProductCard(),
-                          //       ],
-                          //     );
-                          //   }
-                          // }
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(CupertinoPageRoute(
                                   builder: (_) => ProductProfile(
-                                        productId: itemList[index].id,
+                                        productId: snapshot.data[index].id,
                                       )));
                             },
                             child: Container(
                               width: 200,
                               height: 300,
                               child: StaggeredCard(
-                                product: itemList[index],
+                                product: snapshot.data[index],
                               ),
                             ),
                           );

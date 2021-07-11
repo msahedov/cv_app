@@ -50,7 +50,7 @@
       "hintNameSignUp":"Введите ваше имя",
       "lblPhoneNumber":"Телефонный номер",
       "lblPassword":"Пароль",
-      "hintPassword":"Введите свой пароль",
+      "hintPassword":"Введите пароль",
       "lblConfirmPass":"Подтвердите пароль",
       "hintConfirmPass":"Введите пароль еще раз",
       "signUpBtnName":"Зарегистрироваться",

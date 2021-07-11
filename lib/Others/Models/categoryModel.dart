@@ -71,6 +71,7 @@ class Category {
     final response = await http.get(Uri.http("$serverIP", "/api/v1/public/categories/$id"), headers: <String, String>{
       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
     });
+
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)["data"];
       return Category.fromJsonByID(responseJson);

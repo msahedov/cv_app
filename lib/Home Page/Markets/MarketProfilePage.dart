@@ -195,6 +195,41 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
     );
   }
 
+  categoryText(IconData icon, text, bool color) {
+    return Padding(
+        padding: const EdgeInsets.only(top: 15, bottom: 5),
+        child: color
+            ? AutoSizeText(
+                '$text',
+                overflow: TextOverflow.ellipsis,
+                presetFontSizes: [18, 17, 16, 15, 14, 13, 12, 11],
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: color ? Colors.black : Colors.grey[500],
+                  fontFamily: popPinsMedium,
+                ),
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Icon(icon, color: kPrimaryColor_1),
+                  ),
+                  AutoSizeText(
+                    '$text',
+                    overflow: TextOverflow.ellipsis,
+                    presetFontSizes: [18, 17, 16, 15, 14, 13, 12, 11],
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: color ? Colors.black : Colors.grey[500],
+                      fontFamily: popPinsMedium,
+                    ),
+                  ),
+                ],
+              ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -214,7 +249,7 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                       return isOpen
                           ? Scaffold(
                               body: suratBolegi(
-                                '$serverUrl${snapshot.data.images}',
+                                '$serverUrl${snapshot.data.images[0]}',
                               ),
                               bottomSheet: Stack(
                                 alignment: Alignment.topCenter,
@@ -244,7 +279,7 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
                                               SizedBox(
-                                                height: 30,
+                                                height: 20,
                                               ),
                                               Padding(
                                                 padding: EdgeInsets.symmetric(horizontal: 5),
@@ -262,65 +297,58 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                                     ),
                                                     Padding(
                                                       padding: const EdgeInsets.symmetric(vertical: 15),
-                                                      child: Row(
+                                                      child: Column(
                                                         mainAxisSize: MainAxisSize.max,
                                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                         children: [
-                                                          Expanded(
-                                                            child: RaisedButton(
-                                                              color: Colors.white,
-                                                              shape: RoundedRectangleBorder(borderRadius: borderRadius10, side: BorderSide(color: kPrimaryColor_1, width: 2)),
-                                                              disabledColor: Colors.white,
-                                                              elevation: 1.0,
-                                                              disabledElevation: 1.0,
-                                                              onPressed: () {
-                                                                launch(('tel://+99362990344'));
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(Feather.phone_call, color: kPrimaryColor_1),
-                                                                  SizedBox(
-                                                                    width: 10,
+                                                          RaisedButton(
+                                                            color: Colors.white,
+                                                            shape: RoundedRectangleBorder(borderRadius: borderRadius10, side: BorderSide(color: kPrimaryColor_1, width: 2)),
+                                                            disabledColor: Colors.white,
+                                                            elevation: 1.0,
+                                                            disabledElevation: 1.0,
+                                                            onPressed: () {
+                                                              launch(('tel://+99362990344'));
+                                                            },
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(Feather.phone_call, color: kPrimaryColor_1),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    snapshot.data.phoneNumber,
+                                                                    maxLines: 1,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: TextStyle(color: kPrimaryColor_1, fontSize: 16, fontFamily: popPinsSemiBold),
                                                                   ),
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      '+99362990344',
-                                                                      maxLines: 1,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      style: TextStyle(color: kPrimaryColor_1, fontSize: 16, fontFamily: popPinsSemiBold),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
-                                                          SizedBox(
-                                                            width: 40,
-                                                          ),
-                                                          Expanded(
-                                                            child: RaisedButton(
-                                                              color: Colors.white,
-                                                              shape: RoundedRectangleBorder(borderRadius: borderRadius10, side: BorderSide(color: kPrimaryColor_1, width: 2)),
-                                                              disabledColor: Colors.white,
-                                                              elevation: 1.0,
-                                                              disabledElevation: 1.0,
-                                                              onPressed: () {},
-                                                              child: Row(
-                                                                children: [
-                                                                  Icon(Feather.map_pin, color: kPrimaryColor_1),
-                                                                  SizedBox(
-                                                                    width: 10,
+                                                          RaisedButton(
+                                                            color: Colors.white,
+                                                            shape: RoundedRectangleBorder(borderRadius: borderRadius10, side: BorderSide(color: kPrimaryColor_1, width: 2)),
+                                                            disabledColor: Colors.white,
+                                                            elevation: 1.0,
+                                                            disabledElevation: 1.0,
+                                                            onPressed: () {},
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(Feather.map_pin, color: kPrimaryColor_1),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  child: Text(
+                                                                    snapshot.data.address_tm,
+                                                                    maxLines: 1,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: TextStyle(color: kPrimaryColor_1, fontSize: 16, fontFamily: popPinsSemiBold),
                                                                   ),
-                                                                  Expanded(
-                                                                    child: Text(
-                                                                      'Aşgabat',
-                                                                      maxLines: 1,
-                                                                      overflow: TextOverflow.ellipsis,
-                                                                      style: TextStyle(color: kPrimaryColor_1, fontSize: 16, fontFamily: popPinsSemiBold),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
+                                                                )
+                                                              ],
                                                             ),
                                                           ),
                                                         ],
@@ -368,7 +396,7 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                                                       product: snapshot.data[index],
                                                                     ));
                                                               },
-                                                              staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.6),
+                                                              staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.5),
                                                             );
                                                           else
                                                             return shimmerGrid();
@@ -394,7 +422,7 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                       elevation: 5,
                                       color: Colors.transparent,
                                       child: CachedNetworkImage(
-                                        imageUrl: '$serverUrl${snapshot.data.images}',
+                                        imageUrl: '$serverUrl${snapshot.data.images[0]}',
                                         imageBuilder: (context, imageProvider) => Container(
                                           decoration: BoxDecoration(
                                             shape: BoxShape.circle,

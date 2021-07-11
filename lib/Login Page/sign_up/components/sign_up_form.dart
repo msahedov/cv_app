@@ -123,7 +123,7 @@ class _SignUpFormState extends State<SignUpForm> {
           hintStyle: hintStyle,
           errorStyle: errorTextStyle,
           hintText: AppLocalizations.of(context).hintNameSignUp, //"Adyňyz",
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/user.svg"),
         ),
       );
@@ -146,14 +146,15 @@ class _SignUpFormState extends State<SignUpForm> {
         decoration: InputDecoration(
           errorStyle: errorTextStyle,
           contentPadding: textFieldPadding,
-
+          prefixText: "+993",
           labelText: AppLocalizations.of(context).lblPhoneNumber, //"Telefon belgi",
           border: outlineInputBorder(),
           focusedBorder: focusBorder(),
           labelStyle: labelStyle,
-          hintText: "6x xx xx xx",
+          prefixStyle: style,
+          hintText: "",
           hintStyle: hintStyle,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Call.svg"),
         ),
       );
@@ -183,7 +184,7 @@ class _SignUpFormState extends State<SignUpForm> {
           hintText: AppLocalizations.of(context).hintPassword, //"Açar söziňiz",
           labelStyle: labelStyle,
           hintStyle: hintStyle,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
         ),
       );
@@ -213,7 +214,7 @@ class _SignUpFormState extends State<SignUpForm> {
           hintText: AppLocalizations.of(context).hintConfirmPass,
           labelStyle: labelStyle,
           hintStyle: hintStyle,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
         ),
       );

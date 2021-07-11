@@ -23,9 +23,6 @@ class _SignFormState extends State<SignForm> {
   void initState() {
     super.initState();
     focusNode = FocusNode();
-    _phoneController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
@@ -85,7 +82,6 @@ class _SignFormState extends State<SignForm> {
                       UserModel().loginUser(phoneNumber: _phoneController.text, password: _passwordController.text).then((user) {
                         if (user != null) {
                           Auth().login(name: user.name, uid: user.id, phone: user.phoneNumber);
-
                           RestartWidget.restartApp(context);
                         } else {
                           ScaffoldMessenger.of(context)
@@ -129,11 +125,13 @@ class _SignFormState extends State<SignForm> {
           contentPadding: textFieldPadding,
           border: outlineInputBorder(),
           focusedBorder: focusBorder(),
+          prefixText: "+993",
+          prefixStyle: style,
           labelText: AppLocalizations.of(context).lblPhoneNumber,
           labelStyle: labelStyle,
-          hintText: "6x xx xx xx",
+          hintText: "",
           hintStyle: hintStyle,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Call.svg"),
         ),
       );
@@ -170,7 +168,7 @@ class _SignFormState extends State<SignForm> {
           hintStyle: hintStyle,
           hintText: AppLocalizations.of(context).hintPassword, //"Açar söziňiz",
           labelStyle: labelStyle,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
+          //floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
         ),
       );

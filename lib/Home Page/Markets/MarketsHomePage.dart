@@ -15,19 +15,6 @@ class MarketsHomePage extends StatefulWidget {
 }
 
 class _MarketsHomePageState extends State<MarketsHomePage> {
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    // Market().getAllMarketsResult().then((value) {
-    //   maxValue = value;
-    //   maxValue > len ? len = 5 : len = maxValue;
-    // });
-  }
-
   Widget hasError() {
     return SizedBox(
       height: 100,
@@ -46,16 +33,6 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
     );
   }
 
-  getMore() {
-    Future.delayed(Duration(seconds: 1), () {
-      len += 10;
-      if (len > maxValue) len = maxValue;
-      if (this.mounted) {
-        setState(() {});
-      }
-    });
-  }
-
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -67,13 +44,7 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
             Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketsSearchPage()));
           }, context),
           FutureBuilder<List<Market>>(
-              future: Market().getAllMarkets(parametr: ({"limit": "$len"})).then((value) {
-                itemList.clear();
-                value.forEach((element) {
-                  itemList.add(element);
-                });
-                return value;
-              }),
+              future: Market().getAllMarkets(),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.hasError)
                   return hasError();
@@ -82,20 +53,20 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         physics: BouncingScrollPhysics(),
-                        itemCount: itemList.length,
+                        itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, index) {
-                          if (maxValue > len) {
-                            if (index + 1 == itemList.length) {
-                              getMore();
-                              return Row(
-                                children: [shimmerMarket(), shimmerMarket(), shimmerMarket(), shimmerMarket()],
-                              );
-                            }
-                          }
+                          // if (maxValue > len) {
+                          //   if (index + 1 == itemList.length) {
+                          //     getMore();
+                          //     return Row(
+                          //       children: [shimmerMarket(), shimmerMarket(), shimmerMarket(), shimmerMarket()],
+                          //     );
+                          //   }
+                          // }
                           return GestureDetector(
                               onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketProfilePage(marketID: snapshot.data[index].id))),
                               child: MarketCircleCard(
-                                market: itemList[index],
+                                market: snapshot.data[index],
                               ));
                         }),
                   );

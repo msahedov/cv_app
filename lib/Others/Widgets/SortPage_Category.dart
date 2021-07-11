@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:e_commerce_app/Home%20Page/components/ProductProfile.dart';
 import 'package:e_commerce_app/Others/Models/common.dart';
 import 'package:e_commerce_app/Others/NoConnectionPages/Empty_state_page.dart';
+import 'package:e_commerce_app/Others/NoConnectionPages/dataError.dart';
 import 'package:e_commerce_app/Others/ProductCards/ListviewCard.dart';
 import 'package:e_commerce_app/Others/ProductCards/StaggeredCard.dart';
 import 'package:e_commerce_app/Others/Routes/route_names.dart';
@@ -26,52 +27,28 @@ class SortPage_Category extends StatefulWidget {
 }
 
 class _SortPage_CategoryState extends State<SortPage_Category> {
-  bool loading = false;
-  int subCategoryId;
-///////////////////////////////////////////////////login get user id////////////////////////////////////////////////////////////////////////
-  int userIDD;
+  int _subCategoryId, userId, selectedIndex = 0, valuee = 0, selectedIndexFilter = 0;
+  bool filterOrSort = true, isOpen = false, listAndGridIcon = false;
+  TextEditingController highestPrice = TextEditingController();
+  TextEditingController lowestPrice = TextEditingController();
+
   void getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     int uid = _prefs.getInt('uid');
     setState(() {
-      userIDD = uid;
-    });
-  }
-///////////////////////////////////////////////////login get user id////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////get More items////////////////////////////////////////////////////////////////////////
-
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-  void getMore() {
-    Future.delayed(Duration(seconds: 2), () {
-      len += 10;
-      if (len > maxValue) len = maxValue;
-      if (this.mounted) {
-        setState(() {});
-      }
+      userId = uid;
     });
   }
 
   void initState() {
     super.initState();
     getUserData();
-    //subCategoryId = widget.subcategories.length == 0 ? 0 : widget.subcategories[0].id;
-    Product().getAllProductsMaxValue().then((value) {
-      maxValue = value;
-      maxValue > len ? len = 10 : len = maxValue;
-    });
     Future.delayed(Duration(milliseconds: 1000), () {
       setState(() {
         isOpen = true;
       });
     });
   }
-///////////////////////////////////////////////////get More items////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////Sort elements////////////////////////////////////////////////////////////////////////
-  int selectedIndex = 0;
 
   List<Map<String, dynamic>> sort = [
     {"name": "Iň Täzeleri", "index": 0, "sort": "-createdAt"},
@@ -81,144 +58,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
     {"name": "Arzandan -> Gymmada", "index": 4, "sort": "price"}
   ];
 
-  int valuee = 0;
   AutoSizeGroup group = AutoSizeGroup();
-  sortBottomSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) {
-        return Container(
-            padding: EdgeInsets.all(28),
-            decoration: new BoxDecoration(
-              color: Colors.white,
-              borderRadius: new BorderRadius.only(
-                topLeft: const Radius.circular(25.0),
-                topRight: const Radius.circular(25.0),
-              ),
-            ),
-            child: Wrap(children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        return null;
-                      },
-                      child: Icon(
-                        Feather.x,
-                        color: Colors.black,
-                        size: 25,
-                      ),
-                    ),
-                    Text('Yzygiderlik', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
-                    SizedBox(
-                      width: 50,
-                    ),
-                  ],
-                ),
-              ),
-              StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    RadioListTile(
-                        value: 0,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[0]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
-                    RadioListTile(
-                        value: 1,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[1]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
-                    RadioListTile(
-                        value: 2,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[2]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
-                    RadioListTile(
-                        value: 3,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[3]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
-                    RadioListTile(
-                        value: 4,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[4]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
-                  ],
-                );
-              }),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 20, bottom: 10),
-                child: RaisedButton(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  onPressed: () {
-                    loading = false;
-                    selectedIndex = valuee;
-                    setState(() {});
-                    Navigator.of(context).pop();
-                  },
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                  color: kPrimaryColor,
-                  elevation: 1,
-                  child: AutoSizeText(
-                    'Gözle',
-                    maxLines: 1,
-                    maxFontSize: 24,
-                    minFontSize: 20,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: kPrimaryColor_1, fontSize: 50, fontFamily: popPinsSemiBold),
-                  ),
-                ),
-              ),
-            ]));
-      },
-    );
-  }
-///////////////////////////////////////////////////Sort elements////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////Filter elements////////////////////////////////////////////////////////////////////////
-  bool filterOrSort = true;
-  int selectedIndexFilter = 0;
 
   List<bool> filterTick = [
     false,
@@ -230,8 +70,6 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
     {"name": "sort", "sort": "-discount"},
     {"name": "sort", "sort": "-brand"},
   ];
-  TextEditingController highestPrice = TextEditingController();
-  TextEditingController lowestPrice = TextEditingController();
 
   filterBottomSheet() {
     highestPrice.clear();
@@ -423,10 +261,9 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       onPressed: () {
-                        loading = false;
+                        //loading = false;
                         if (highestPrice.text.isNotEmpty && lowestPrice.text.isNotEmpty) {
                           selectedIndexFilter = 0;
-                          print("i come");
                         }
 
                         setState(() {});
@@ -450,11 +287,140 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
             ])));
   }
 
-///////////////////////////////////////////////////Filter elements////////////////////////////////////////////////////////////////////////
+  sortBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+            padding: EdgeInsets.all(28),
+            decoration: new BoxDecoration(
+              color: Colors.white,
+              borderRadius: new BorderRadius.only(
+                topLeft: const Radius.circular(25.0),
+                topRight: const Radius.circular(25.0),
+              ),
+            ),
+            child: Wrap(children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        return null;
+                      },
+                      child: Icon(
+                        Feather.x,
+                        color: Colors.black,
+                        size: 25,
+                      ),
+                    ),
+                    Text('Yzygiderlik', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
+                    SizedBox(
+                      width: 50,
+                    ),
+                  ],
+                ),
+              ),
+              StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    RadioListTile(
+                        value: 0,
+                        contentPadding: EdgeInsets.only(right: 25),
+                        title: AutoSizeText(sort[0]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
+                        groupValue: valuee,
+                        activeColor: kPrimaryColor_1,
+                        onChanged: (int index) {
+                          setState(() {
+                            valuee = index;
+                          });
+                        }),
+                    RadioListTile(
+                        value: 1,
+                        contentPadding: EdgeInsets.only(right: 25),
+                        title: AutoSizeText(sort[1]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
+                        groupValue: valuee,
+                        activeColor: kPrimaryColor_1,
+                        onChanged: (int index) {
+                          setState(() {
+                            valuee = index;
+                          });
+                        }),
+                    RadioListTile(
+                        value: 2,
+                        contentPadding: EdgeInsets.only(right: 25),
+                        title: AutoSizeText(sort[2]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
+                        groupValue: valuee,
+                        activeColor: kPrimaryColor_1,
+                        onChanged: (int index) {
+                          setState(() {
+                            valuee = index;
+                          });
+                        }),
+                    RadioListTile(
+                        value: 3,
+                        contentPadding: EdgeInsets.only(right: 25),
+                        title: AutoSizeText(sort[3]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
+                        groupValue: valuee,
+                        activeColor: kPrimaryColor_1,
+                        onChanged: (int index) {
+                          setState(() {
+                            valuee = index;
+                          });
+                        }),
+                    RadioListTile(
+                        value: 4,
+                        contentPadding: EdgeInsets.only(right: 25),
+                        title: AutoSizeText(sort[4]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
+                        groupValue: valuee,
+                        activeColor: kPrimaryColor_1,
+                        onChanged: (int index) {
+                          setState(() {
+                            valuee = index;
+                          });
+                        }),
+                  ],
+                );
+              }),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(top: 20, bottom: 10),
+                child: RaisedButton(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  onPressed: () {
+                    // loading = false;
+                    selectedIndex = valuee;
+                    setState(() {});
+                    Navigator.of(context).pop();
+                  },
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  color: kPrimaryColor,
+                  elevation: 1,
+                  child: AutoSizeText(
+                    'Gözle',
+                    maxLines: 1,
+                    maxFontSize: 24,
+                    minFontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: kPrimaryColor_1, fontSize: 50, fontFamily: popPinsSemiBold),
+                  ),
+                ),
+              ),
+            ]));
+      },
+    );
+  }
 
 //others
-  bool isOpen = false;
-  bool listAndGridIcon = false;
+
   Widget sortItems() {
     return Container(
       padding: EdgeInsets.only(bottom: 10),
@@ -547,85 +513,109 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
     );
   }
 
-  Widget gridView() {
-    return StaggeredGridView.countBuilder(
-      crossAxisCount: 2,
-      itemCount: itemList.length,
-      physics: BouncingScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        if (maxValue > len) {
-          if (index + 1 == itemList.length) {
-            getMore();
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: spinKit(),
+  Widget gridView(int subcategoryId) {
+    return FutureBuilder<List<Product>>(
+        future: Product().getAllProducts(parametr: {"subCategoryId": "$subcategoryId"}),
+        builder: (context, snapshot) {
+          if (snapshot.hasError)
+            return NoDataErrorPage(
+              onTap: () {
+                setState(() {});
+              },
             );
+          else if (snapshot.hasData) {
+            return snapshot.data.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: EmptyPage(
+                      selectedIndex: 5,
+                    ),
+                  )
+                : StaggeredGridView.countBuilder(
+                    crossAxisCount: 2,
+                    itemCount: snapshot.data.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ProductProfile(
+                                          productId: snapshot.data[index].id,
+                                        )));
+                            return null;
+                          },
+                          child: StaggeredCard(
+                            product: snapshot.data[index],
+                          ));
+                    },
+                    staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.5),
+                  );
           }
-        }
-        return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => ProductProfile(
-                            productId: itemList[index].id,
-                          )));
-              return null;
-            },
-            child: StaggeredCard(
-              product: itemList[index],
-            ));
-      },
-      staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.6),
-    );
+
+          return Center(
+            child: spinKit(),
+          );
+        });
   }
 
-  Widget listView() {
-    return ListView.builder(
-      itemCount: itemList.length,
-      physics: BouncingScrollPhysics(),
-      itemBuilder: (context, int index) {
-        if (maxValue > len) {
-          if (index + 1 == itemList.length) {
-            getMore();
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: spinKit(),
+  Widget listView(int subcategoryId) {
+    return FutureBuilder<List<Product>>(
+        future: Product().getAllProducts(parametr: {"subCategoryId": subcategoryId}),
+        builder: (context, snapshot) {
+          if (snapshot.hasError)
+            return NoDataErrorPage(
+              onTap: () {
+                setState(() {});
+              },
             );
-          }
-        }
-        return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProductProfile(
-                            productId: itemList[index].id,
-                          )));
-            },
-            child: ListviewCard(
-              userId: userIDD,
-              product: itemList[index],
-            ));
-      },
-    );
+          else if (snapshot.hasData)
+            return snapshot.data.isEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: EmptyPage(
+                      selectedIndex: 5,
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: snapshot.data.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, int index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductProfile(
+                                          productId: snapshot.data[index].id,
+                                        )));
+                          },
+                          child: ListviewCard(
+                            userId: userId,
+                            product: snapshot.data[index],
+                          ));
+                    },
+                  );
+          return Center(
+            child: spinKit(),
+          );
+        });
   }
 
-  Widget subCategories() {
+  Widget subCategories(List<SubCategory> subcategories) {
     return Container(
       height: 70,
       width: double.infinity,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        //itemCount: widget.subcategories.length == 0 ? 0 : widget.subcategories.length,
+        itemCount: subcategories.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
             onTap: () {
               setState(() {
-                loading = false;
-                //subCategoryId = widget.subcategories[index].id;
+                _subCategoryId = subcategories[index].id;
               });
-              print(subCategoryId);
             },
             child: Container(
               margin: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
@@ -636,9 +626,10 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                 child: Center(
                   child: Container(
                     padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(color: kPrimaryColor, borderRadius: borderRadius10),
+                    decoration: BoxDecoration(
+                        border: Border.fromBorderSide(BorderSide(color: kPrimaryColor)), color: subcategories[index].id == _subCategoryId ? kPrimaryColor : Colors.white, borderRadius: borderRadius10),
                     child: AutoSizeText(
-                      "widget.subcategories[index].name",
+                      subcategories[index].name_tm,
                       stepGranularity: 2,
                       minFontSize: 18,
                       textAlign: TextAlign.center,
@@ -723,27 +714,8 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
           ];
         },
         body: isOpen
-            ? FutureBuilder<List<Product>>(
-                future: filterOrSort
-                    ? Product().getAllProducts(parametr: ({"sort": sort[selectedIndex]["sort"], "limit": "$len", "subCategoryId": "$subCategoryId"})).then((value) {
-                        itemList.clear();
-                        loading = true;
-                        value.forEach((element) {
-                          itemList.add(element);
-                        });
-                        return value;
-                      })
-                    : Product()
-                        .getAllProducts(parametr: ({filter[selectedIndexFilter]["name"]: filter[selectedIndexFilter]["sort"], "limit": "$len", "subCategoryId": "$subCategoryId"}))
-                        .then((value) {
-                        itemList.clear();
-                        loading = true;
-                        value.forEach((element) {
-                          itemList.add(element);
-                        });
-                        filterOrSort = false;
-                        return value;
-                      }),
+            ? FutureBuilder<Category>(
+                future: Category().getCategoryById(widget.id),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasError)
                     return hasError();
@@ -754,23 +726,8 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                         color: textFieldbackColor,
                         child: Column(
                           children: [
-                            //widget.subcategories.isNotEmpty ? subCategories() : SizedBox.shrink(),
-                            snapshot.data.isEmpty
-                                ? Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: EmptyPage(
-                                      selectedIndex: 5,
-                                    ),
-                                  )
-                                : loading
-                                    ? listAndGridIcon
-                                        ? Expanded(child: listView())
-                                        : Expanded(child: gridView())
-                                    : Expanded(
-                                        child: Center(
-                                          child: spinKit(),
-                                        ),
-                                      ),
+                            snapshot.data.subcategories.length > 0 ? subCategories(snapshot.data.subcategories) : SizedBox.shrink(),
+                            listAndGridIcon ? Expanded(child: listView(_subCategoryId)) : Expanded(child: gridView(_subCategoryId))
                           ],
                         ));
                   }

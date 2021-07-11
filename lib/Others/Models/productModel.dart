@@ -121,7 +121,7 @@ class Product extends ChangeNotifier {
   final Market market;
 
   // get All active Products
-  Future<List<Product>> getAllProducts({Map<String, String> parametr}) async {
+  Future<List<Product>> getAllProducts({Map<String, dynamic> parametr}) async {
     List<Product> products = [];
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     final token = await Auth().getToken();

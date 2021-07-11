@@ -12,6 +12,7 @@ class Market {
   factory Market.fromJson(Map<String, dynamic> json) {
     List jsonImages = json["images"] as List;
     List<dynamic> _images = jsonImages.map((e) => e).toList();
+
     return Market(
         id: json['id'],
         name_tm: json['name_tm'],
@@ -31,6 +32,7 @@ class Market {
     final response = await http.get(Uri.http("$serverIP", "/api/v1/public/markets", parametr), headers: <String, String>{
       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
     });
+    //print(response.body);
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(response.body)["data"];
       for (Map market in responseJson) {

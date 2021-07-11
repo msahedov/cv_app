@@ -63,7 +63,7 @@ class _MarketCardState extends State<MarketCard> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: AutoSizeText(
-                        widget.market.name_tm ?? "Market",
+                        widget.market.name_tm,
                         presetFontSizes: [
                           16,
                           14,
@@ -106,7 +106,7 @@ class _MarketCardState extends State<MarketCard> {
                         ),
                         Expanded(
                           child: AutoSizeText(
-                            '+993 65-15-15-15',
+                            widget.market.phoneNumber,
                             presetFontSizes: [
                               14,
                               12,

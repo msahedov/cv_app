@@ -7,6 +7,7 @@ import 'package:e_commerce_app/Others/NoConnectionPages/dataError.dart';
 import 'package:e_commerce_app/Others/Widgets/SortPage_Category.dart';
 import 'package:e_commerce_app/Others/animations/slide_animation.dart';
 import 'package:e_commerce_app/Others/constants/constants.dart';
+import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -37,30 +38,6 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
     super.dispose();
     _connectivitySubscription.cancel();
     _slidecontroller.dispose();
-  }
-
-  Future<void> initConnectivity() async {
-    ConnectivityResult result = ConnectivityResult.none;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {}
-    if (!mounted) {
-      return Future.value(null);
-    }
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        setState(() => _connectionStatus = result.toString());
-        break;
-      default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
-        break;
-    }
   }
 
   Widget _layoutHorizontal(BuildContext context) {
@@ -117,7 +94,19 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
                     child: ClipRRect(
                       borderRadius: radius,
                       child: Container(
-                        decoration: BoxDecoration(image: DecorationImage(image: NetworkImage("$serverUrl${category.image}"), fit: BoxFit.cover), color: Colors.white, borderRadius: radius),
+                        child: CachedNetworkImage(
+                          imageUrl: '$serverUrl${category.image}',
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => Center(child: spinKit()),
+                          errorWidget: (context, url, error) => Icon(Icons.error_outline),
+                        ),
                       ),
                     ),
                   ),
@@ -179,5 +168,29 @@ class _CategoryPageState extends State<CategoryPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return _connectionStatus == "ConnectivityResult.none" ? NoConnnectionPage() : _layoutHorizontal(context);
+  }
+
+  Future<void> initConnectivity() async {
+    ConnectivityResult result = ConnectivityResult.none;
+    try {
+      result = await _connectivity.checkConnectivity();
+    } on PlatformException catch (e) {}
+    if (!mounted) {
+      return Future.value(null);
+    }
+    return _updateConnectionStatus(result);
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'Failed to get connectivity.');
+        break;
+    }
   }
 }

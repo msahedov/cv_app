@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:e_commerce_app/Home%20Page/components/ProductProfile.dart';
-import 'package:e_commerce_app/Others/Models/categoryModel.dart';
 import 'package:e_commerce_app/Others/Models/common.dart';
 import 'package:e_commerce_app/Others/ProductCards/ListviewCard.dart';
 import 'package:e_commerce_app/Others/ProductCards/StaggeredCard.dart';
@@ -42,41 +41,29 @@ class _SortPageState extends State<SortPage> {
       userIDD = uid;
     });
   }
-///////////////////////////////////////////////////login get user id////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////get More items////////////////////////////////////////////////////////////////////////
-
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-  void getMore() {
-    Future.delayed(Duration(seconds: 2), () {
-      len += 10;
-      if (len > maxValue) len = maxValue;
-      if (this.mounted) {
-        setState(() {});
-      }
-    });
-  }
+//  var itemList = [];
+//   int len = 10;
+//   int maxValue = 0;
+//   void getMore() {
+//     Future.delayed(Duration(seconds: 2), () {
+//       len += 10;
+//       if (len > maxValue) len = maxValue;
+//       if (this.mounted) {
+//         setState(() {});
+//       }
+//     });
+//   }
 
   void initState() {
     super.initState();
-    print("get userdaa");
     getUserData();
-
-    Product().getAllProductsMaxValue().then((value) {
-      maxValue = value;
-      maxValue > len ? len = 10 : len = maxValue;
-    });
     Future.delayed(Duration(milliseconds: 1000), () {
       setState(() {
         isOpen = true;
       });
     });
   }
-///////////////////////////////////////////////////get More items////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////Sort elements////////////////////////////////////////////////////////////////////////
   int selectedIndex = 0;
 
   List<Map<String, dynamic>> sort = [
@@ -220,9 +207,7 @@ class _SortPageState extends State<SortPage> {
       },
     );
   }
-///////////////////////////////////////////////////Sort elements////////////////////////////////////////////////////////////////////////
 
-///////////////////////////////////////////////////Filter elements////////////////////////////////////////////////////////////////////////
   bool filterOrSort = true;
   int selectedIndexFilter = 0;
 
@@ -432,7 +417,6 @@ class _SortPageState extends State<SortPage> {
                         loading = false;
                         if (highestPrice.text.isNotEmpty && lowestPrice.text.isNotEmpty) {
                           selectedIndexFilter = 0;
-                          print("i come");
                         }
 
                         setState(() {});
@@ -455,8 +439,6 @@ class _SortPageState extends State<SortPage> {
               )
             ])));
   }
-
-///////////////////////////////////////////////////Filter elements////////////////////////////////////////////////////////////////////////
 
 //others
   bool isOpen = false;
@@ -553,66 +535,47 @@ class _SortPageState extends State<SortPage> {
     );
   }
 
-  Widget gridView() {
+  Widget gridView(List<Product> products) {
     return StaggeredGridView.countBuilder(
       crossAxisCount: 2,
-      itemCount: itemList.length,
+      itemCount: products.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        if (maxValue > len) {
-          if (index + 1 == itemList.length) {
-            getMore();
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: spinKit(),
-            );
-          }
-        }
         return GestureDetector(
             onTap: () {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
                       builder: (context) => ProductProfile(
-                            productId: itemList[index].id,
+                            productId: products[index].id,
                           )));
               return null;
             },
             child: StaggeredCard(
-              product: itemList[index],
+              product: products[index],
             ));
       },
-      staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.6),
+      staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.5),
     );
   }
 
-  Widget listView() {
+  Widget listView(List<Product> products) {
     return ListView.builder(
-      itemCount: itemList.length,
+      itemCount: products.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (context, int index) {
-        if (maxValue > len) {
-          if (index + 1 == itemList.length) {
-            getMore();
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: spinKit(),
-            );
-          }
-        }
-        print(index);
         return GestureDetector(
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ProductProfile(
-                            productId: itemList[index].id,
+                            productId: products[index].id,
                           )));
             },
             child: ListviewCard(
               userId: userIDD,
-              product: itemList[index],
+              product: products[index],
             ));
       },
     );
@@ -688,41 +651,13 @@ class _SortPageState extends State<SortPage> {
         },
         body: isOpen
             ? FutureBuilder<List<Product>>(
-                future: filterOrSort
-                    ? Product().getAllProducts(parametr: ({"sort": sort[selectedIndex]["sort"], "limit": "$len"})).then((value) {
-                        itemList.clear();
-                        loading = true;
-                        value.forEach((element) {
-                          itemList.add(element);
-                        });
-                        return value;
-                      })
-                    : Product().getAllProducts(parametr: ({filter[selectedIndexFilter]["name"]: filter[selectedIndexFilter]["sort"], "limit": "$len"})).then((value) {
-                        itemList.clear();
-                        loading = true;
-                        print("filter come");
-                        value.forEach((element) {
-                          itemList.add(element);
-                        });
-                        filterOrSort = false;
-                        return value;
-                      }),
+                future: Product().getAllProducts(),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasError)
                     return hasError();
                   else if (snapshot.hasData) {
                     return Container(
-                      width: double.infinity,
-                      height: MediaQuery.of(context).size.height,
-                      color: textFieldbackColor,
-                      child: loading
-                          ? listAndGridIcon
-                              ? listView()
-                              : gridView()
-                          : Center(
-                              child: spinKit(),
-                            ),
-                    );
+                        width: double.infinity, height: MediaQuery.of(context).size.height, color: textFieldbackColor, child: listAndGridIcon ? listView(snapshot.data) : gridView(snapshot.data));
                   }
                   return listAndGridIcon ? shimmerProduct() : shimmerGrid();
                 })

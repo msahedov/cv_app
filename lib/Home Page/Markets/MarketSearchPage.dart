@@ -16,58 +16,20 @@ class MarketsSearchPage extends StatefulWidget {
 }
 
 class _MarketsSearchPageState extends State<MarketsSearchPage> {
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-
   TextEditingController _searchController = TextEditingController();
-  List<Market> _searchResult = [];
 
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void initState() {
-    _searchController.addListener(() {
-      setState(() {});
-    });
-    // Market().getAllMarketsResult().then((value) {
-    //   maxValue = value;
-    //   maxValue > len ? len = 5 : len = maxValue;
-    // });
-
-    super.initState();
-  }
-
-  Widget hasData(List<Market> snapshot) {
+  Widget hasData(List<Market> markets) {
     return ListView.builder(
-      itemCount: snapshot.length,
+      itemCount: markets.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
-        if (maxValue > len) {
-          if (index + 1 == itemList.length) {
-            getMore();
-            return spinKit();
-          }
-        }
         return InkWell(
-            onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketProfilePage(marketID: snapshot[index].id))),
+            onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketProfilePage(marketID: markets[index].id))),
             child: MarketCard(
-              market: snapshot[index],
+              market: markets[index],
             ));
       },
     );
-  }
-
-  void getMore() {
-    Future.delayed(Duration(seconds: 2), () {
-      len += 10;
-      if (len > maxValue) len = maxValue;
-      if (this.mounted) {
-        setState(() {});
-      }
-    });
   }
 
   AppBar appBar() => AppBar(
@@ -79,7 +41,7 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
             Navigator.of(context).pop();
           },
           child: Icon(
-            Icons.arrow_back,
+            Icons.arrow_back_ios_sharp,
             color: Colors.black,
           ),
         ),
@@ -98,7 +60,7 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
         borderRadius: borderRadius15,
         color: Colors.white,
         child: TextField(
-          onChanged: (text) => searchByMarketName(text),
+          onChanged: (text) {},
           textAlign: TextAlign.start,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,
@@ -111,21 +73,18 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
               padding: const EdgeInsets.all(12.0),
               child: SvgPicture.asset('assets/icons/search.svg'),
             ),
-            suffixIcon: _searchController.text.isNotEmpty
-                ? InkWell(
-                    onTap: () {
-                      searchByMarketName('');
-                      setState(() {
-                        _searchController.text = "";
-                      });
-                    },
-                    child: Icon(
-                      Feather.x,
-                      color: Colors.black,
-                      size: 25,
-                    ),
-                  )
-                : SizedBox.shrink(),
+            suffixIcon: InkWell(
+              onTap: () {
+                setState(() {
+                  _searchController.text = "";
+                });
+              },
+              child: Icon(
+                Feather.x,
+                color: Colors.black,
+                size: 20,
+              ),
+            ),
             border: OutlineInputBorder(
               borderRadius: borderRadius15,
               borderSide: BorderSide(
@@ -158,48 +117,23 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
         body: Column(
           children: [
             search(),
-            _searchController.text.isNotEmpty
-                ? Expanded(child: hasData(_searchResult))
-                : FutureBuilder<List<Market>>(
-                    future: Market().getAllMarkets(parametr: ({"limit": "$len"})).then((value) {
-                      itemList.clear();
-                      value.forEach((element) {
-                        itemList.add(element);
-                      });
-
-                      return value;
-                    }),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasError)
-                        return NoDataErrorPage(
-                          onTap: () {
-                            setState(() {});
-                          },
-                        );
-                      else if (snapshot.hasData) {
-                        return Expanded(child: hasData(snapshot.data));
-                      }
-                      return spinKit();
-                    })
+            FutureBuilder<List<Market>>(
+                future: Market().getAllMarkets(),
+                builder: (BuildContext context, snapshot) {
+                  if (snapshot.hasError)
+                    return NoDataErrorPage(
+                      onTap: () {
+                        setState(() {});
+                      },
+                    );
+                  else if (snapshot.hasData) {
+                    return Expanded(child: hasData(snapshot.data));
+                  }
+                  return Expanded(child: Center(child: spinKit()));
+                })
           ],
         ),
       ),
     );
-  }
-
-  void searchByMarketName(String text) {
-    _searchResult.clear();
-
-    if (text.isEmpty) {
-      _searchResult.clear();
-      setState(() {});
-      return;
-    }
-    itemList.forEach((market) {
-      if (market.name.toLowerCase().contains(text))
-        setState(() {
-          _searchResult.add(market);
-        });
-    });
   }
 }

@@ -29,7 +29,6 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProviderStateMixin {
-///////////////////////////////////////////////////login get user id////////////////////////////////////////////////////////////////////////
   int userIdd;
   bool _isLogin = false;
   void getUserData() async {
@@ -58,8 +57,6 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
     slideAnimationIndex.dispose();
     super.dispose();
   }
-
-///////////////////////////////////////////////////Connection check////////////////////////////////////////////////////////////////////////
 
   String _connectionStatus = 'Unknown';
 
@@ -90,8 +87,6 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
         break;
     }
   }
-
-///////////////////////////////////////////////////Connection check////////////////////////////////////////////////////////////////////////
 
   AppBar appBar() => AppBar(
         automaticallyImplyLeading: false,

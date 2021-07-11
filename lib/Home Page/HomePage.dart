@@ -33,6 +33,25 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: _connectionStatus == "ConnectivityResult.none"
+            ? NoConnnectionPage()
+            : Scaffold(
+                backgroundColor: textFieldbackColor,
+                appBar: appBar(),
+                body: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(children: [
+                    Banners(),
+                    MarketsHomePage(),
+                    Listview(),
+                    ListviewDiscount(),
+                  ]),
+                ),
+              ));
+  }
+
   Future<void> initConnectivity() async {
     ConnectivityResult result = ConnectivityResult.none;
     try {
@@ -86,23 +105,4 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       );
-
-  Widget build(BuildContext context) {
-    return SafeArea(
-        child: _connectionStatus == "ConnectivityResult.none"
-            ? NoConnnectionPage()
-            : Scaffold(
-                backgroundColor: textFieldbackColor,
-                appBar: appBar(),
-                body: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: Column(children: [
-                    Banners(),
-                    MarketsHomePage(),
-                    Listview(),
-                    ListviewDiscount(),
-                  ]),
-                ),
-              ));
-  }
 }

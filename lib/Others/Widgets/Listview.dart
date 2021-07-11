@@ -14,22 +14,6 @@ class Listview extends StatefulWidget {
 }
 
 class _ListviewState extends State<Listview> {
-  var itemList = [];
-  int len = 10;
-  int maxValue = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    Product().getAllProductsMaxValue().then((value) {
-      maxValue = value;
-      if (maxValue >= len) {
-        len = 10;
-      } else
-        len = maxValue;
-    });
-  }
-
   Widget hasError() {
     return SizedBox(
       height: 200,
@@ -48,18 +32,6 @@ class _ListviewState extends State<Listview> {
     );
   }
 
-  void getMore() {
-    Future.delayed(Duration(seconds: 1), () {
-      if (len > maxValue)
-        len = maxValue;
-      else
-        len += 10;
-      if (this.mounted) {
-        setState(() {});
-      }
-    });
-  }
-
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -70,13 +42,7 @@ class _ListviewState extends State<Listview> {
                   )));
         }, context),
         FutureBuilder<List<Product>>(
-            future: Product().getAllProducts().then((value) {
-              itemList.clear();
-              value.forEach((element) {
-                itemList.add(element);
-              });
-              return value;
-            }),
+            future: Product().getAllProducts(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasError)
                 return hasError();
@@ -86,7 +52,7 @@ class _ListviewState extends State<Listview> {
                   margin: EdgeInsets.only(bottom: 20),
                   width: double.infinity,
                   child: ListView.builder(
-                    itemCount: itemList.length,
+                    itemCount: snapshot.data.length,
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
@@ -94,20 +60,16 @@ class _ListviewState extends State<Listview> {
                         onTap: () {
                           Navigator.of(context).push(CupertinoPageRoute(
                               builder: (_) => ProductProfile(
-                                    productId: itemList[index].id,
+                                    productId: snapshot.data[index].id,
                                   )));
                         },
                         child: Container(
                           width: 200,
                           height: 300,
                           child: StaggeredCard(
-                            product: itemList[index],
+                            product: snapshot.data[index],
                           ),
                         ),
-                        // child: ProductCard(
-                        //   product: itemList[index],
-                        //   discount: false,
-                        // )
                       );
                     },
                   ),

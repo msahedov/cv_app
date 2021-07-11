@@ -5,7 +5,6 @@ import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ListviewCard extends StatelessWidget {
@@ -13,6 +12,7 @@ class ListviewCard extends StatelessWidget {
   final int userId;
 
   const ListviewCard({Key key, @required this.product, @required this.userId}) : super(key: key);
+
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double rating = double.parse(product.rating);
@@ -96,7 +96,7 @@ class ListviewCard extends StatelessWidget {
                         style: TextStyle(color: kPrimaryColor_1, fontSize: 15, fontFamily: popPinsMedium),
                         children: <TextSpan>[
                           new TextSpan(
-                            text: '${product.brand ?? "Market"}',
+                            text: '${product.brand}',
                             style: TextStyle(fontSize: 18, fontFamily: popPinsMedium),
                           ),
                         ],
@@ -153,7 +153,6 @@ class ListviewCard extends StatelessWidget {
                       width: double.infinity,
                       child: RaisedButton(
                         onPressed: () {
-                          print(userId);
                           if (userId != null) {
                             Cart().addProductToCartById(userId: userId, productId: product.id, qty: 1);
                             showMessage("Sebede goşuldy", context);
