@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:connectivity/connectivity.dart';
+import 'package:e_commerce_app/Others/Models/authModel.dart';
+import 'package:e_commerce_app/Others/Models/productModel.dart';
 import 'package:e_commerce_app/Others/NoConnectionPages/NoConnection.dart';
 import 'package:e_commerce_app/Others/Routes/route_names.dart';
 import 'package:e_commerce_app/Others/l10n/language_picker_widget.dart';
@@ -12,6 +16,7 @@ import '../Others/Widgets/Listview_discount.dart';
 import '../Others/constants/constants.dart';
 import 'Markets/MarketsHomePage.dart';
 import 'components/Banners.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();

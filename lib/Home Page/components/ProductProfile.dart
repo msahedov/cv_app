@@ -9,8 +9,7 @@ import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -139,39 +138,27 @@ class _ProductProfileState extends State<ProductProfile> {
               Container(
                 color: textFieldbackColor,
                 padding: const EdgeInsets.only(bottom: 10),
-                child: Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    selectedImage = index;
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(CupertinoPageRoute(
-                            builder: (context) => Photoview(
-                                  images: images,
-                                )));
-                      },
-                      child: CachedNetworkImage(
-                        colorBlendMode: BlendMode.difference,
-                        imageUrl: '$serverUrl${images[index]}',
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, url) => Center(child: spinKit()),
-                        errorWidget: (context, url, error) => Icon(Icons.error_outline),
-                      ),
-                    );
+                child:GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(CupertinoPageRoute(
+                        builder: (context) => Photoview(
+                          images: images,
+                        )));
                   },
-                  pagination: new SwiperPagination(
-                    alignment: Alignment.bottomCenter,
-                    builder: new DotSwiperPaginationBuilder(size: 12, activeSize: 12, color: Colors.grey[200], activeColor: kPrimaryColor),
+                  child: CachedNetworkImage(
+                    colorBlendMode: BlendMode.difference,
+                    imageUrl: '$serverUrl${images[0]}',
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => Center(child: spinKit()),
+                    errorWidget: (context, url, error) => Icon(Icons.error_outline),
                   ),
-                  itemCount: images.length,
-                  curve: Curves.easeInOut,
-                  loop: true,
                 ),
               ),
               Positioned(
@@ -190,38 +177,38 @@ class _ProductProfileState extends State<ProductProfile> {
                           })),
                 ),
               ),
-              Positioned(
-                top: 130,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-                  child: AnimatedOpacity(
-                    opacity: top < 350 ? 0.0 : 1.0,
-                    duration: Duration(milliseconds: 800),
-                    child: customButton(
-                        image: 'assets/icons/thumbs_up.svg',
-                        color: likProduct ? kPrimaryColor : kPrimaryColor_1,
-                        onTap: () {
-                          if (userIdd != null) {
-                            setState(() {
-                              likProduct = !likProduct;
-                            });
+              // Positioned(
+              //   top: 130,
+              //   right: 0,
+              //   child: Padding(
+              //     padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
+              //     child: AnimatedOpacity(
+              //       opacity: top < 350 ? 0.0 : 1.0,
+              //       duration: Duration(milliseconds: 800),
+              //       child: customButton(
+              //           image: 'assets/icons/thumbs_up.svg',
+              //           color: likProduct ? kPrimaryColor : kPrimaryColor_1,
+              //           onTap: () {
+              //             if (userIdd != null) {
+              //               setState(() {
+              //                 likProduct = !likProduct;
+              //               });
 
-                            if (likProduct == true) {
-                              Product().likeProductById(widget.productId);
-                              showMessage("Haryda like goýduňyz !", context);
-                              setState(() {});
-                            } else {
-                              showMessage("Haryda öň like goýguňyz!", context);
-                              setState(() {});
-                            }
-                          } else {
-                            showMessage("Haryda like goýmak üçin ulgama giriň !", context);
-                          }
-                        }),
-                  ),
-                ),
-              )
+              //               if (likProduct == true) {
+              //                 Product().likeProductById(widget.productId);
+              //                 showMessage("Haryda like goýduňyz !", context);
+              //                 setState(() {});
+              //               } else {
+              //                 showMessage("Haryda öň like goýguňyz!", context);
+              //                 setState(() {});
+              //               }
+              //             } else {
+              //               showMessage("Haryda like goýmak üçin ulgama giriň !", context);
+              //             }
+              //           }),
+              //     ),
+              //   ),
+              // )
             ],
           ),
         );
@@ -499,22 +486,22 @@ class _ProductProfileState extends State<ProductProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               categoryText(
-                Feather.eye,
+                FeatherIcons.eye,
                 "Görülen sany :",
                 false,
               ),
               categoryText(
-                Feather.thumbs_up,
+                FeatherIcons.thumbsUp,
                 "Halanan sany :",
                 false,
               ),
               categoryText(
-                Feather.star,
+                FeatherIcons.star,
                 "Rating :",
                 false,
               ),
               categoryText(
-                Feather.circle,
+                FeatherIcons.circle,
                 "Brend :",
                 false,
               ),
@@ -527,22 +514,22 @@ class _ProductProfileState extends State<ProductProfile> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               categoryText(
-                Feather.eye,
+                FeatherIcons.eye,
                 "${_product.viewCount}",
                 true,
               ),
               categoryText(
-                Feather.heart,
+                FeatherIcons.heart,
                 "${_product.likeCount}",
                 true,
               ),
               categoryText(
-                Feather.star,
+                FeatherIcons.star,
                 "${_product.rating}",
                 true,
               ),
               categoryText(
-                Feather.circle,
+                FeatherIcons.circle,
                 "${_product.brand}",
                 true,
               )
@@ -572,7 +559,7 @@ class _ProductProfileState extends State<ProductProfile> {
             },
             child: Row(
               children: [
-                Icon(Feather.phone_call, color: kPrimaryColor_1),
+                Icon(FeatherIcons.phoneCall, color: kPrimaryColor_1),
                 SizedBox(
                   width: 10,
                 ),

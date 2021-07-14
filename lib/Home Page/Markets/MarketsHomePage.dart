@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:e_commerce_app/Others/ProductCards/MarketCircleCard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,8 @@ class MarketsHomePage extends StatefulWidget {
 }
 
 class _MarketsHomePageState extends State<MarketsHomePage> {
+  StreamController _streamController;
+
   Widget hasError() {
     return SizedBox(
       height: 100,
@@ -44,7 +48,7 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
             Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketsSearchPage()));
           }, context),
           FutureBuilder<List<Market>>(
-              future: Market().getAllMarkets(),
+              future: Market().getAllMarkets(parametr: {"limit": "10"}),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.hasError)
                   return hasError();
@@ -55,14 +59,6 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
                         physics: BouncingScrollPhysics(),
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, index) {
-                          // if (maxValue > len) {
-                          //   if (index + 1 == itemList.length) {
-                          //     getMore();
-                          //     return Row(
-                          //       children: [shimmerMarket(), shimmerMarket(), shimmerMarket(), shimmerMarket()],
-                          //     );
-                          //   }
-                          // }
                           return GestureDetector(
                               onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketProfilePage(marketID: snapshot.data[index].id))),
                               child: MarketCircleCard(

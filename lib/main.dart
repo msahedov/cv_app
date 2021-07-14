@@ -1,11 +1,9 @@
 import 'dart:io';
-// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'Others/Routes/custom_router.dart';
 import 'Others/Routes/route_names.dart';
@@ -21,7 +19,6 @@ void _enablePlatformOverrideForDesktop() {
 void main() async {
   _enablePlatformOverrideForDesktop();
   WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -56,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> initPlatformState() async {
-    OneSignal.shared.setAppId(oneSignalAppId);
+    //OneSignal.shared.setAppId(oneSignalAppId);
   }
 
   Widget build(BuildContext context) => ChangeNotifierProvider(

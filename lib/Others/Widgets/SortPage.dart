@@ -1,9 +1,7 @@
 import 'dart:ui';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:e_commerce_app/Home%20Page/components/ProductProfile.dart';
 import 'package:e_commerce_app/Others/Models/common.dart';
-import 'package:e_commerce_app/Others/ProductCards/ListviewCard.dart';
 import 'package:e_commerce_app/Others/ProductCards/StaggeredCard.dart';
 import 'package:e_commerce_app/Others/Routes/route_names.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,29 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
 
 class SortPage extends StatefulWidget {
-  const SortPage({
-    Key key,
-    this.name,
-  }) : super(key: key);
+  const SortPage({Key key, this.name, this.params}) : super(key: key);
   final String name;
-
+  final Map<String, String> params;
   _SortPageState createState() => _SortPageState();
 }
 
 class _SortPageState extends State<SortPage> {
-  bool loading = false;
-  bool addCart = false;
-///////////////////////////////////////////////////login get user id////////////////////////////////////////////////////////////////////////
-  int userIDD;
+  int userIDD, selectedIndex = 0, valuee = 0, selectedIndexFilter = 0;
+  AutoSizeGroup group = AutoSizeGroup();
+  TextEditingController highestPrice = new TextEditingController(), lowestPrice = new TextEditingController();
+  bool isOpen = false;
   void getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     int uid = _prefs.getInt('uid');
@@ -41,18 +34,6 @@ class _SortPageState extends State<SortPage> {
       userIDD = uid;
     });
   }
-//  var itemList = [];
-//   int len = 10;
-//   int maxValue = 0;
-//   void getMore() {
-//     Future.delayed(Duration(seconds: 2), () {
-//       len += 10;
-//       if (len > maxValue) len = maxValue;
-//       if (this.mounted) {
-//         setState(() {});
-//       }
-//     });
-//   }
 
   void initState() {
     super.initState();
@@ -64,18 +45,13 @@ class _SortPageState extends State<SortPage> {
     });
   }
 
-  int selectedIndex = 0;
-
   List<Map<String, dynamic>> sort = [
     {"name": "Iň Täzeleri", "index": 0, "sort": "-createdAt"},
-    {"name": "Iň Köp like alan", "index": 1, "sort": "-likeCount"},
-    {"name": "Iň Köp Görülen", "index": 2, "sort": "-viewCount"},
-    {"name": "Gymmatdan -> Arzana", "index": 3, "sort": "-price"},
-    {"name": "Arzandan -> Gymmada", "index": 4, "sort": "price"}
+    {"name": "Iň Köp Görülen", "index": 1, "sort": "-viewCount"},
+    {"name": "Gymmatdan -> Arzana", "index": 2, "sort": "-price"},
+    {"name": "Arzandan -> Gymmada", "index": 3, "sort": "price"}
   ];
 
-  int valuee = 0;
-  AutoSizeGroup group = AutoSizeGroup();
   sortBottomSheet() {
     showModalBottomSheet(
       context: context,
@@ -84,9 +60,9 @@ class _SortPageState extends State<SortPage> {
       builder: (context) {
         return Container(
             padding: EdgeInsets.all(28),
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: new BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(25.0),
                 topRight: const Radius.circular(25.0),
               ),
@@ -99,17 +75,14 @@ class _SortPageState extends State<SortPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        return null;
-                      },
+                      onTap: () => Navigator.pop(context),
                       child: Icon(
-                        Feather.x,
+                        FeatherIcons.x,
                         color: Colors.black,
                         size: 25,
                       ),
                     ),
-                    Text('Yzygiderlik', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
+                    Text('Tertiplemek', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
                     SizedBox(
                       width: 50,
                     ),
@@ -164,17 +137,6 @@ class _SortPageState extends State<SortPage> {
                             valuee = index;
                           });
                         }),
-                    RadioListTile(
-                        value: 4,
-                        contentPadding: EdgeInsets.only(right: 25),
-                        title: AutoSizeText(sort[4]["name"], group: group, presetFontSizes: [18, 16, 14, 12, 10], style: TextStyle(color: Colors.black, fontFamily: popPinsMedium)),
-                        groupValue: valuee,
-                        activeColor: kPrimaryColor_1,
-                        onChanged: (int index) {
-                          setState(() {
-                            valuee = index;
-                          });
-                        }),
                   ],
                 );
               }),
@@ -184,17 +146,19 @@ class _SortPageState extends State<SortPage> {
                 child: RaisedButton(
                   padding: EdgeInsets.symmetric(vertical: 10),
                   onPressed: () {
-                    loading = false;
-                    selectedIndex = valuee;
-                    setState(() {});
+                    setState(() {
+                      selectedIndex = valuee;
+                      // queryParams.addAll({"sort": sort[selectedIndex]["sort"]});
+                    });
                     Navigator.of(context).pop();
                   },
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                   color: kPrimaryColor,
                   elevation: 1,
                   child: AutoSizeText(
-                    'Gözle',
+                    'Tertiple',
                     maxLines: 1,
+                    group: group,
                     maxFontSize: 24,
                     minFontSize: 20,
                     overflow: TextOverflow.ellipsis,
@@ -208,9 +172,6 @@ class _SortPageState extends State<SortPage> {
     );
   }
 
-  bool filterOrSort = true;
-  int selectedIndexFilter = 0;
-
   List<bool> filterTick = [
     false,
     false,
@@ -221,8 +182,6 @@ class _SortPageState extends State<SortPage> {
     {"name": "sort", "sort": "-discount"},
     {"name": "sort", "sort": "-brand"},
   ];
-  TextEditingController highestPrice = TextEditingController();
-  TextEditingController lowestPrice = TextEditingController();
 
   filterBottomSheet() {
     highestPrice.clear();
@@ -254,7 +213,7 @@ class _SortPageState extends State<SortPage> {
                       return null;
                     },
                     child: Icon(
-                      Feather.x,
+                      FeatherIcons.x,
                       color: Colors.black,
                       size: 25,
                     ),
@@ -336,8 +295,6 @@ class _SortPageState extends State<SortPage> {
                             setState(() {
                               selectedIndexFilter = 1;
                               filterTick[0] = !filterTick[0];
-
-                              filterOrSort = true;
                             });
                           },
                           child: Container(
@@ -346,7 +303,7 @@ class _SortPageState extends State<SortPage> {
                             child: Row(
                               children: [
                                 Icon(
-                                  Feather.tag,
+                                  FeatherIcons.tag,
                                   color: kPrimaryColor_1,
                                 ),
                                 Expanded(
@@ -373,8 +330,6 @@ class _SortPageState extends State<SortPage> {
                             setState(() {
                               selectedIndexFilter = 2;
                               filterTick[1] = !filterTick[1];
-
-                              filterOrSort = true;
                             });
                           },
                           child: Container(
@@ -383,7 +338,7 @@ class _SortPageState extends State<SortPage> {
                             child: Row(
                               children: [
                                 Icon(
-                                  Feather.truck,
+                                  FeatherIcons.truck,
                                   color: kPrimaryColor_1,
                                 ),
                                 Expanded(
@@ -414,7 +369,6 @@ class _SortPageState extends State<SortPage> {
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       onPressed: () {
-                        loading = false;
                         if (highestPrice.text.isNotEmpty && lowestPrice.text.isNotEmpty) {
                           selectedIndexFilter = 0;
                         }
@@ -441,8 +395,7 @@ class _SortPageState extends State<SortPage> {
   }
 
 //others
-  bool isOpen = false;
-  bool listAndGridIcon = false;
+
   Widget sortItems() {
     return Container(
       padding: EdgeInsets.only(bottom: 10),
@@ -463,69 +416,54 @@ class _SortPageState extends State<SortPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              InkWell(
-                onTap: () {
-                  filterBottomSheet();
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      'assets/icons/filter.svg',
-                      color: kPrimaryColor_1,
-                      width: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Filter',
-                        style: TextStyle(fontSize: 18.0, color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () {
+                    filterBottomSheet();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/filter.svg',
+                        color: kPrimaryColor_1,
+                        width: 20,
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Süzgüç',
+                          style: TextStyle(fontSize: 18.0, color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               divider(),
-              InkWell(
-                onTap: () {
-                  sortBottomSheet();
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.filter_list,
-                      color: kPrimaryColor_1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Text(
-                        'Yzygiderlik',
-                        style: TextStyle(fontSize: 18.0, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  onTap: () {
+                    sortBottomSheet();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.filter_list,
+                        color: kPrimaryColor_1,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              divider(),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    listAndGridIcon = !listAndGridIcon;
-                  });
-                },
-                child: Row(
-                  children: [
-                    Icon(
-                      listAndGridIcon ? Icons.list : Feather.grid,
-                      color: kPrimaryColor_1,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text(
-                        listAndGridIcon ? 'List' : 'Grid',
-                        style: TextStyle(fontSize: 18.0, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
-                      ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Text(
+                          'Tertiplemek',
+                          style: TextStyle(fontSize: 18.0, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -536,8 +474,11 @@ class _SortPageState extends State<SortPage> {
   }
 
   Widget gridView(List<Product> products) {
-    return StaggeredGridView.countBuilder(
-      crossAxisCount: 2,
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: 3 / 4.8,
+        crossAxisCount: 2,
+      ),
       itemCount: products.length,
       physics: BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
@@ -552,29 +493,6 @@ class _SortPageState extends State<SortPage> {
               return null;
             },
             child: StaggeredCard(
-              product: products[index],
-            ));
-      },
-      staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.5 : 1.5),
-    );
-  }
-
-  Widget listView(List<Product> products) {
-    return ListView.builder(
-      itemCount: products.length,
-      physics: BouncingScrollPhysics(),
-      itemBuilder: (context, int index) {
-        return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProductProfile(
-                            productId: products[index].id,
-                          )));
-            },
-            child: ListviewCard(
-              userId: userIDD,
               product: products[index],
             ));
       },
@@ -634,8 +552,8 @@ class _SortPageState extends State<SortPage> {
       pinned: true,
     );
   }
-//others
 
+//others
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -651,15 +569,16 @@ class _SortPageState extends State<SortPage> {
         },
         body: isOpen
             ? FutureBuilder<List<Product>>(
-                future: Product().getAllProducts(),
+                future: Product().getAllProducts(parametr: widget.params),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasError)
                     return hasError();
                   else if (snapshot.hasData) {
-                    return Container(
-                        width: double.infinity, height: MediaQuery.of(context).size.height, color: textFieldbackColor, child: listAndGridIcon ? listView(snapshot.data) : gridView(snapshot.data));
+                    return Container(width: double.infinity, height: MediaQuery.of(context).size.height, color: textFieldbackColor, child: gridView(snapshot.data));
                   }
-                  return listAndGridIcon ? shimmerProduct() : shimmerGrid();
+                  return Center(
+                    child: spinKit(),
+                  );
                 })
             : Center(
                 child: spinKit(),

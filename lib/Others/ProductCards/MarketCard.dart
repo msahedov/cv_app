@@ -4,7 +4,7 @@ import 'package:e_commerce_app/Others/Models/common.dart';
 import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class MarketCard extends StatefulWidget {
   final Market market;
@@ -80,7 +80,7 @@ class _MarketCardState extends State<MarketCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Feather.map_pin, color: kPrimaryColor_1, size: 18),
+                          child: Icon(FeatherIcons.mapPin, color: kPrimaryColor_1, size: 18),
                         ),
                         Expanded(
                           child: AutoSizeText(
@@ -102,7 +102,7 @@ class _MarketCardState extends State<MarketCard> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Icon(Feather.phone_call, color: kPrimaryColor_1, size: 18),
+                          child: Icon(FeatherIcons.phoneCall, color: kPrimaryColor_1, size: 18),
                         ),
                         Expanded(
                           child: AutoSizeText(

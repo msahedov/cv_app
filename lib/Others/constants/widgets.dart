@@ -4,8 +4,7 @@ import 'package:e_commerce_app/Others/Models/productModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart' as chasing_dots;
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
@@ -370,82 +369,85 @@ void showInSnackBar(String value, GlobalKey<ScaffoldState> scaffoldKey) {
 }
 
 Widget shimmerGrid() {
-  return StaggeredGridView.countBuilder(
+  return GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      childAspectRatio: 3 / 4.8,
       crossAxisCount: 2,
-      itemCount: 20,
-      physics: BouncingScrollPhysics(),
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          margin: EdgeInsets.all(10),
-          child: Material(
-              elevation: 1,
-              borderRadius: borderRadius10,
-              color: Colors.white,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: borderRadius10,
-                      child: Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: Container(
-                            color: Colors.grey,
-                          )),
-                    ),
+    ),
+    itemCount: 20,
+    physics: BouncingScrollPhysics(),
+    itemBuilder: (BuildContext context, int index) {
+      return Container(
+        margin: EdgeInsets.all(10),
+        child: Material(
+            elevation: 1,
+            borderRadius: borderRadius10,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: borderRadius10,
+                    child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          color: Colors.grey,
+                        )),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(top: 5, bottom: 10, right: 10, left: 10),
-                    decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: Container(
-                            color: Colors.grey,
-                            child: AutoSizeText(
-                              '               ',
-                              maxLines: 1,
-                              presetFontSizes: [18, 16, 14],
-                              stepGranularity: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: popPinsMedium,
-                              ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 5, bottom: 10, right: 10, left: 10),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: Container(
+                          color: Colors.grey,
+                          child: AutoSizeText(
+                            '               ',
+                            maxLines: 1,
+                            presetFontSizes: [18, 16, 14],
+                            stepGranularity: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: popPinsMedium,
                             ),
                           ),
                         ),
-                        Shimmer.fromColors(
-                          baseColor: Colors.grey[300],
-                          highlightColor: Colors.grey[100],
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: RaisedButton(
-                              onPressed: () {},
-                              color: kPrimaryColor_1,
-                              child: AutoSizeText(
-                                'Sebede goşuldy',
-                                maxLines: 1,
-                                stepGranularity: 1,
-                                presetFontSizes: [16, 14, 12],
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(color: kPrimaryColor, fontFamily: popPinsBold),
-                              ),
+                      ),
+                      Shimmer.fromColors(
+                        baseColor: Colors.grey[300],
+                        highlightColor: Colors.grey[100],
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                            onPressed: () {},
+                            color: kPrimaryColor_1,
+                            child: AutoSizeText(
+                              'Sebede goşuldy',
+                              maxLines: 1,
+                              stepGranularity: 1,
+                              presetFontSizes: [16, 14, 12],
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: kPrimaryColor, fontFamily: popPinsBold),
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              )),
-        );
-      },
-      staggeredTileBuilder: (index) => StaggeredTile.count(1, index.isEven ? 1.4 : 1.5));
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )),
+      );
+    },
+  );
 }
 
 Widget listName(String name, Function onTap, BuildContext context) {
@@ -484,7 +486,7 @@ Widget listName(String name, Function onTap, BuildContext context) {
 }
 
 Widget spinKit() {
-  return SpinKitChasingDots(
+  return chasing_dots.SpinKitChasingDots(
     size: 40,
     color: kPrimaryColor_1,
   );

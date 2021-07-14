@@ -88,10 +88,10 @@
        "paymentmethodNagt":"",
        "paymentmethodKart":"",
 
-       "favoritespagetitle":"Halanlarym",
+        "favoritespagetitle":"Halanlarym",
         "addToCart":"Sebede goş",
         "seller":"Satyjy",
-
+        "brand":"Brend",
 
          "cartPageTitle":"Sebet",
         "orderingBtn":"Sargyda geç",

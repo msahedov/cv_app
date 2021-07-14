@@ -4,7 +4,7 @@ import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductCard extends StatefulWidget {
@@ -181,7 +181,7 @@ class _ProductCardState extends State<ProductCard> {
                                 child: Container(
                                   padding: EdgeInsets.all(5),
                                   decoration: BoxDecoration(color: kPrimaryColor_1, borderRadius: borderRadius10),
-                                  child: addCart ? Icon(Icons.done, color: kPrimaryColor) : Icon(AntDesign.shoppingcart, color: kPrimaryColor),
+                                  child: addCart ? Icon(Icons.done, color: kPrimaryColor) : Icon(FeatherIcons.shoppingCart, color: kPrimaryColor),
                                 ),
                               ),
                             ),

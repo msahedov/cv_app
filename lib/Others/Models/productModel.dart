@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'authModel.dart';
 import 'marketModel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Product extends ChangeNotifier {
   Product({

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../../Others/Models/common.dart';
 import '../../Others/constants/constants.dart';
@@ -60,7 +60,6 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
         borderRadius: borderRadius15,
         color: Colors.white,
         child: TextField(
-          onChanged: (text) {},
           textAlign: TextAlign.start,
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.search,
@@ -80,7 +79,7 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
                 });
               },
               child: Icon(
-                Feather.x,
+                FeatherIcons.x,
                 color: Colors.black,
                 size: 20,
               ),
@@ -109,6 +108,11 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
     );
   }
 
+  void initState() {
+    super.initState();
+    _searchController.addListener(() => setState(() {}));
+  }
+
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -118,7 +122,7 @@ class _MarketsSearchPageState extends State<MarketsSearchPage> {
           children: [
             search(),
             FutureBuilder<List<Market>>(
-                future: Market().getAllMarkets(),
+                future: Market().getAllMarkets(parametr: {"q": "${_searchController.text}"}),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasError)
                     return NoDataErrorPage(

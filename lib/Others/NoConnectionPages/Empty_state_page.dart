@@ -57,48 +57,50 @@ class EmptyPage extends StatelessWidget {
     return Center(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          SizedBox(height: 100),
-          Image.asset(
-            page[selectedIndex]["image"],
-          ),
-          Column(
-            children: [
-              AutoSizeText(page[selectedIndex]["text"],
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold)),
-              AutoSizeText(page[selectedIndex]["description"],
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                  presetFontSizes: [18, 16, 14, 12, 10, 8],
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.grey[400], fontFamily: popPinsRegular)),
-            ],
-          ),
-          page[selectedIndex]["buttonText"].length > 1
-              ? RaisedButton(
-                  onPressed: onTap,
-                  shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-                  elevation: 1.0,
-                  disabledColor: kPrimaryColor_1,
-                  color: kPrimaryColor_1,
-                  hoverColor: kPrimaryColor_1,
-                  child: AutoSizeText(page[selectedIndex]["buttonText"],
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                      presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: kPrimaryColor, fontFamily: popPinsMedium)),
-                )
-              : SizedBox.shrink(),
-          SizedBox(height: 100),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(height: 100),
+            Image.asset(
+              page[selectedIndex]["image"],
+            ),
+            Column(
+              children: [
+                AutoSizeText(page[selectedIndex]["text"],
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold)),
+                AutoSizeText(page[selectedIndex]["description"],
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    presetFontSizes: [18, 16, 14, 12, 10, 8],
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.grey[400], fontFamily: popPinsRegular)),
+              ],
+            ),
+            page[selectedIndex]["buttonText"].length > 1
+                ? RaisedButton(
+                    onPressed: onTap,
+                    shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+                    elevation: 1.0,
+                    disabledColor: kPrimaryColor_1,
+                    color: kPrimaryColor_1,
+                    hoverColor: kPrimaryColor_1,
+                    child: AutoSizeText(page[selectedIndex]["buttonText"],
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
+                        presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: kPrimaryColor, fontFamily: popPinsMedium)),
+                  )
+                : SizedBox.shrink(),
+            SizedBox(height: 100),
+          ],
+        ),
       ),
     ));
   }

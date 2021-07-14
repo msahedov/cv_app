@@ -39,11 +39,12 @@ class _ListviewDiscountState extends State<ListviewDiscount> {
         listName(AppLocalizations.of(context).arzanladys, () {
           Navigator.of(context).push(CupertinoPageRoute(
               builder: (context) => SortPage(
+                    params: {"sort": "discount"},
                     name: AppLocalizations.of(context).arzanladys,
                   )));
         }, context),
         FutureBuilder<List<Product>>(
-            future: Product().getAllProducts(),
+            future: Product().getAllProducts(parametr: {"limit": "10", "sort": "discount"}),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasError)
                 return hasError();

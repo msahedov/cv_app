@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
@@ -114,11 +114,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
           IconSlideAction(color: textFieldbackColor, closeOnTap: true, icon: Icons.close, onTap: () {}),
           InkWell(
             onTap: () {
-              Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).then((isSucces) {
-                if (isSucces) {
-                  showMessage('Haryt halanlaryňyzdan aýryldy !', context);
-                  setState(() {});
-                }
+              Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).whenComplete(() {
+                setState(() {});
               });
               controller.activeState.dismiss();
               controller.activeState.close();
@@ -130,18 +127,15 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                 borderRadius: borderRadius20,
                 color: kPrimaryColor.withOpacity(0.2),
               ),
-              child: Icon(Feather.trash, color: kPrimaryColor),
+              child: Icon(FeatherIcons.trash, color: kPrimaryColor),
             ),
           ),
         ],
         secondaryActions: <Widget>[
           InkWell(
             onTap: () {
-              Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).then((isSucces) {
-                if (isSucces) {
-                  showMessage('Haryt halanlaryňyzdan aýryldy !', context);
-                  setState(() {});
-                }
+              Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).whenComplete(() {
+                setState(() {});
               });
               controller.activeState.dismiss();
               controller.activeState.close();
@@ -153,7 +147,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                 borderRadius: borderRadius20,
                 color: kPrimaryColor.withOpacity(0.2),
               ),
-              child: Icon(Feather.trash, color: kPrimaryColor),
+              child: Icon(FeatherIcons.trash, color: kPrimaryColor),
             ),
           ),
           IconSlideAction(color: textFieldbackColor, closeOnTap: true, icon: Icons.close, onTap: () {}),
@@ -218,7 +212,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                           children: [
                             Expanded(
                               child: AutoSizeText(
-                                product.name_tm ?? "Haryt",
+                                product.name_tm,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 stepGranularity: 2,
@@ -230,35 +224,32 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                               ),
                             ),
                             GestureDetector(
-                                child: itemLike[index]["isLiked"] == "false"
-                                    ? Icon(
-                                        Icons.favorite,
-                                        color: kPrimaryColor_1,
-                                        size: 30,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_border,
-                                        color: kPrimaryColor_1,
-                                        size: 30,
-                                      ),
+                                child: Icon(
+                                  Icons.favorite,
+                                  color: kPrimaryColor_1,
+                                  size: 30,
+                                ),
                                 onTap: () {
-                                  if (itemLike[index]["isLiked"] == "false") {
-                                    setState(() {
-                                      itemLike[index]["isLiked"] = "true";
-                                    });
-                                    Future.delayed(Duration(milliseconds: 1000), () {
-                                      Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).then((isSucces) {
-                                        if (isSucces) {
-                                          showMessage('Haryt halanlaryňyzdan aýryldy !', context);
-                                          setState(() {
-                                            Future.delayed(Duration(milliseconds: 200), () {
-                                              itemLike[index]["isLiked"] = "false";
-                                            });
-                                          });
-                                        }
-                                      });
-                                    });
-                                  }
+                                  Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).whenComplete(() {
+                                    setState(() {});
+                                  });
+                                  // if (itemLike[index]["isLiked"] == "false") {
+                                  //   setState(() {
+                                  //     itemLike[index]["isLiked"] = "true";
+                                  //   });
+                                  //   Future.delayed(Duration(milliseconds: 1000), () {
+                                  //     Favorites().deleteFavoriteById(userId: userIdd, productId: product.id).then((isSucces) {
+                                  //       if (isSucces) {
+                                  //         showMessage('Haryt halanlaryňyzdan aýryldy !', context);
+                                  //         setState(() {
+                                  //           Future.delayed(Duration(milliseconds: 200), () {
+                                  //             itemLike[index]["isLiked"] = "false";
+                                  //           });
+                                  //         });
+                                  //       }
+                                  //     });
+                                  //   });
+                                  // }
                                 }),
                           ],
                         ),
@@ -271,7 +262,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                           style: TextStyle(color: kPrimaryColor_1, fontSize: 15, fontFamily: popPinsMedium),
                           children: <TextSpan>[
                             TextSpan(
-                              text: '${product.brand ?? "Satyjy"}',
+                              text: "${product.brand}",
                               style: TextStyle(fontSize: 18, fontFamily: popPinsMedium),
                             ),
                           ],
@@ -283,7 +274,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                             size: 20,
                             starCount: 5,
                             isReadOnly: true,
-                            rating: rating,
+                            rating: double.tryParse(product.rating),
                             color: kPrimaryColor,
                             borderColor: kPrimaryColor,
                             allowHalfRating: true,
@@ -293,7 +284,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                           ),
                           Expanded(
                             child: AutoSizeText(
-                              '${rating}',
+                              product.rating,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               presetFontSizes: [16, 14, 12],
@@ -309,8 +300,6 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                         width: size.width,
                         child: RaisedButton(
                           onPressed: () {
-                            print("fucccck");
-                            print(itemLike[index]["addCart"]);
                             if (itemLike[index]["addCart"] == "false" && userIdd != null) {
                               setState(() {
                                 itemLike[index]["addCart"] = "true";
@@ -327,16 +316,16 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                             }
                           },
                           shape: RoundedRectangleBorder(borderRadius: borderRadius10),
-                          color: itemLike[index]["addCart"] == "true" ? kPrimaryColor_1 : kPrimaryColor,
+                          color: kPrimaryColor,
                           elevation: 1,
                           child: AutoSizeText(
-                            itemLike[index]["addCart"] == "true" ? "Sebede goş" : AppLocalizations.of(context).addToCart,
+                            AppLocalizations.of(context).addToCart,
                             maxLines: 1,
                             stepGranularity: 1,
                             presetFontSizes: [16, 14, 12, 10, 8, 6],
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
-                            style: TextStyle(color: itemLike[index]["addCart"] == "true" ? kPrimaryColor : kPrimaryColor_1, fontFamily: popPinsBold),
+                            style: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsBold),
                           ),
                         ),
                       )
@@ -359,19 +348,14 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
             backgroundColor: textFieldbackColor,
             body: _isLogin
                 ? FutureBuilder<List<Product>>(
-                    future: Favorites().getAllFavoriteProducts(userId: userIdd).then((value) {
-                      value.forEach((element) {
-                        itemLike.add({"isLiked": "false", "addCart": "false"});
-                      });
-                      return value;
-                    }),
+                    future: Favorites().getAllFavoriteProducts(userId: userIdd),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasError)
                         return NoDataErrorPage(onTap: () {
                           setState(() {});
                         });
                       else if (snapshot.hasData) {
-                        return snapshot.data.length > 0
+                        return snapshot.data.isNotEmpty
                             ? ListView.builder(
                                 itemCount: snapshot.data.length,
                                 physics: BouncingScrollPhysics(),

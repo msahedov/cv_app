@@ -187,7 +187,7 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
     final profileItems = <Map<String, dynamic>>[
       {"text": AppLocalizations.of(context).myaccount, "icon": "assets/icons/user.svg"},
       {'text': AppLocalizations.of(context).myorders, "icon": "assets/icons/cart.svg"},
-      {'text': AppLocalizations.of(context).notifications, "icon": "assets/icons/bell.svg"},
+      // {'text': AppLocalizations.of(context).notifications, "icon": "assets/icons/bell.svg"},
       {'text': _isLogin ? AppLocalizations.of(context).logout : AppLocalizations.of(context).login, "icon": "assets/icons/Log out.svg"},
       {"text": AppLocalizations.of(context).aboutUs, "icon": "assets/icons/info.svg"},
     ];
@@ -195,11 +195,11 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
     pages = <Widget>[
       UserPage(title: profileItems[0]["text"]),
       OrdersPage(title: profileItems[1]["text"]),
-      NotificationsPage(
-        title: profileItems[2]["text"],
-      ),
+      // NotificationsPage(
+      //   title: profileItems[2]["text"],
+      // ),
       AboutUs(
-        title: profileItems[4]["text"],
+        title: profileItems[3]["text"],
       )
     ];
 
@@ -250,19 +250,19 @@ class _ProfilPageState extends State<ProfilPage> with TickerProviderStateMixin {
                 icon: profileItems[1]["icon"],
                 press: () => Navigator.push(context, PageTransition(ctx: context, curve: curve, reverseDuration: kAnimationDuration, duration: kAnimationDuration, child: pages[1], type: type)),
               ),
+              // ProfileMenu(
+              //   text: profileItems[2]["text"],
+              //   icon: profileItems[2]["icon"],
+              //   press: () => Navigator.push(context, PageTransition(ctx: context, curve: curve, reverseDuration: kAnimationDuration, duration: kAnimationDuration, child: pages[2], type: type)),
+              // ),
               ProfileMenu(
-                text: profileItems[2]["text"],
-                icon: profileItems[2]["icon"],
+                text: profileItems[3]["text"],
+                icon: profileItems[3]["icon"],
                 press: () => Navigator.push(context, PageTransition(ctx: context, curve: curve, reverseDuration: kAnimationDuration, duration: kAnimationDuration, child: pages[2], type: type)),
               ),
               ProfileMenu(
-                text: profileItems[4]["text"],
-                icon: profileItems[4]["icon"],
-                press: () => Navigator.push(context, PageTransition(ctx: context, curve: curve, reverseDuration: kAnimationDuration, duration: kAnimationDuration, child: pages[3], type: type)),
-              ),
-              ProfileMenu(
-                  text: profileItems[3]["text"],
-                  icon: profileItems[3]["icon"],
+                  text: profileItems[2]["text"],
+                  icon: profileItems[2]["icon"],
                   press: () {
                     _isLogin
                         ? primaryDialog(

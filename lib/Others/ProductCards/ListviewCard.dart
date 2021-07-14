@@ -4,7 +4,7 @@ import 'package:e_commerce_app/Others/Models/common.dart';
 import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ListviewCard extends StatelessWidget {
@@ -84,7 +84,7 @@ class ListviewCard extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Align(alignment: Alignment.topRight, child: likeButton(Feather.heart, false, product.favored, product.id, userId)),
+                          Align(alignment: Alignment.topRight, child: likeButton(FeatherIcons.heart, false, product.favored, product.id, userId)),
                         ],
                       ),
                     ),

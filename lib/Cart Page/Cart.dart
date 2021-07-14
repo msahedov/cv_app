@@ -16,7 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Others/constants/constants.dart';
 import 'components/ShippingAdress.dart';
@@ -81,15 +81,17 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
           presetFontSizes: [24, 22, 20, 18, 16, 14, 12, 10, 8, 6],
           style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
         ),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.delete_outline, size: 30, color: kPrimaryColor_1),
-              onPressed: () {
-                Cart().emptyCartRequest().whenComplete(() {
-                  setState(() {});
-                });
-              })
-        ],
+        actions: _isLogin
+            ? [
+                IconButton(
+                    icon: Icon(Icons.delete_outline, size: 30, color: kPrimaryColor_1),
+                    onPressed: () {
+                      Cart().emptyCartRequest().whenComplete(() {
+                        setState(() {});
+                      });
+                    })
+              ]
+            : [],
       );
 
   Widget cartCard({Cart cart, int index}) {
@@ -104,14 +106,8 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
             IconSlideAction(color: textFieldbackColor, closeOnTap: true, icon: Icons.close, onTap: () {}),
             GestureDetector(
               onTap: () {
-                Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
-                  if (isSucces) {
-                    showMessage("Haryt sebediňizden aýryldy", context);
-                    setState(() {
-                      controller.activeState.dismiss();
-                      controller.activeState.close();
-                    });
-                  }
+                Cart().removeProductFromCart(userId: userId, productId: cart.id).whenComplete(() {
+                  setState(() {});
                 });
               },
               child: Container(
@@ -121,22 +117,27 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                   borderRadius: borderRadius20,
                   color: kPrimaryColor.withOpacity(0.2),
                 ),
-                child: Icon(Feather.trash, color: kPrimaryColor),
+                child: Icon(FeatherIcons.trash, color: kPrimaryColor),
               ),
             ),
           ],
           secondaryActions: <Widget>[
             GestureDetector(
               onTap: () {
-                Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
-                  if (isSucces) {
-                    showMessage("Haryt sebediňizden aýryldy", context);
-                    setState(() {
-                      controller.activeState.dismiss();
-                      controller.activeState.close();
-                    });
-                  }
+                Cart().removeProductFromCart(userId: userId, productId: cart.id).whenComplete(() {
+                  controller.activeState.dismiss();
+                  controller.activeState.close();
+                  setState(() {});
                 });
+                // .then((isSucces) {
+                //   if (isSucces) {
+                //     showMessage("Haryt sebediňizden aýryldy", context);
+                //     setState(() {
+                //       controller.activeState.dismiss();
+                //       controller.activeState.close();
+                //     });
+                //   }
+                // });
               },
               child: Container(
                 margin: EdgeInsets.only(left: 10),
@@ -145,7 +146,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                   borderRadius: borderRadius20,
                   color: kPrimaryColor.withOpacity(0.2),
                 ),
-                child: Icon(Feather.trash, color: kPrimaryColor),
+                child: Icon(FeatherIcons.trash, color: kPrimaryColor),
               ),
             ),
             IconSlideAction(color: textFieldbackColor, closeOnTap: true, icon: Icons.close, onTap: () {}),
@@ -225,32 +226,32 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        if (userId == null) {
-                                          showMessage("Haryda halanlaryňyza goşmak üçin ulgama giriň !", context);
-                                        } else {
-                                          if (userId != null) {
-                                            setState(() {
-                                              Product().addToFavoriteByID(cart.id);
-                                              showMessage("Haryt halanlaryňyza goşuldy !", context);
-                                            });
-                                          } else {
-                                            setState(() {
-                                              Favorites().deleteFavoriteById(productId: cart.id, userId: userId);
-                                              showMessage("Haryda halanlaryňyzda aýryldy !", context);
-                                            });
-                                          }
-                                        }
-                                      },
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: kPrimaryColor,
-                                        size: 32,
-                                      )),
-                                ),
+                                // Padding(
+                                //   padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+                                //   child: GestureDetector(
+                                //       onTap: () {
+                                //         // if (userId == null) {
+                                //         //   showMessage("Haryda halanlaryňyza goşmak üçin ulgama giriň !", context);
+                                //         // } else {
+                                //         //   if (userId != null) {
+                                //         //     setState(() {
+                                //         //       Product().addToFavoriteByID(cart.id);
+                                //         //       showMessage("Haryt halanlaryňyza goşuldy !", context);
+                                //         //     });
+                                //         //   } else {
+                                //         //     setState(() {
+                                //         //       Favorites().deleteFavoriteById(productId: cart.id, userId: userId);
+                                //         //       showMessage("Haryda halanlaryňyzda aýryldy !", context);
+                                //         //     });
+                                //         //   }
+                                //         // }
+                                //       },
+                                //       child: Icon(
+                                //         Icons.favorite,
+                                //         color: kPrimaryColor,
+                                //         size: 32,
+                                //       )),
+                                // ),
                               ],
                             ),
                           ),
@@ -259,21 +260,15 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                               GestureDetector(
                                 onTap: () {
                                   if (cart.qty <= 0) {
-                                    Cart().removeProductFromCart(userId: userId, productId: cart.id).then((isSucces) {
-                                      print(isSucces);
-                                      if (isSucces) {
-                                        setState(() {});
-
-                                        showMessage("Haryt sebediňizden aýryldy", context);
-                                      }
+                                    Cart().removeProductFromCart(userId: userId, productId: cart.id).whenComplete(() {
+                                      setState(() {});
+                                      showMessage("Haryt sebediňizden aýryldy", context);
                                     });
                                   } else {
                                     int productCount = cart.qty;
                                     --productCount;
-                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).then((isSucces) {
-                                      if (isSucces) {
-                                        setState(() {});
-                                      }
+                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).whenComplete(() {
+                                      setState(() {});
                                     });
                                   }
                                 },
@@ -308,10 +303,8 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   if (countInStock > cart.qty) {
                                     int productCount = cart.qty;
                                     ++productCount;
-                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).then((isSucces) {
-                                      if (isSucces) {
-                                        setState(() {});
-                                      }
+                                    Cart().addProductToCartById(userId: userId, productId: cart.id, qty: productCount).whenComplete(() {
+                                      setState(() {});
                                     });
                                   } else {
                                     showMessage("Haryt ammarda gutardy", context);
@@ -323,7 +316,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   decoration: BoxDecoration(color: kPrimaryColor, shape: BoxShape.circle),
                                   child: FittedBox(
                                     child: Icon(
-                                      Feather.plus,
+                                      FeatherIcons.plus,
                                       color: kPrimaryColor_1,
                                       size: 22,
                                     ),
@@ -356,7 +349,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                           _totalPrice = totalPrice(value);
                           return value;
                         }).whenComplete(() {
-                          setState(() {});
+                          
                         }),
                         builder: (context, snapshot) {
                           if (snapshot.hasError)
@@ -405,7 +398,9 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                     selectedIndex: 0,
                                   );
                           }
-                          return shimmerCartListView(context, 10);
+                          return Center(
+                            child: spinKit(),
+                          );
                         })
                     : Center(
                         child: spinKit(),
@@ -414,35 +409,37 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                     selectedIndex: 1,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage())),
                   ),
-            persistentFooterButtons: [
-              Container(
-                  width: MediaQuery.of(context).size.width - 150,
-                  child: Text(
-                    "Jemi: $_totalPrice tmt",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
-                  )),
-              SizedBox(
-                width: 110,
-                child: FlatButton(
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                  minWidth: 120,
-                  height: 45,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
-                  color: kPrimaryColor_1,
-                  child: Text(
-                    AppLocalizations.of(context).orderingBtn,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor),
-                  ),
-                  onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
-                      builder: (context) => ShippingAdress(
-                            userId: userId,
-                            bahasy: _totalPrice.toString(),
-                          ))),
-                ),
-              ),
-            ],
+            persistentFooterButtons: _isLogin
+                ? [
+                    Container(
+                        width: MediaQuery.of(context).size.width - 150,
+                        child: Text(
+                          "Jemi: $_totalPrice tmt",
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
+                        )),
+                    SizedBox(
+                      width: 110,
+                      child: FlatButton(
+                        visualDensity: VisualDensity.adaptivePlatformDensity,
+                        minWidth: 120,
+                        height: 45,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+                        color: kPrimaryColor_1,
+                        child: Text(
+                          AppLocalizations.of(context).orderingBtn,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor),
+                        ),
+                        onPressed: () => Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => ShippingAdress(
+                                  userId: userId,
+                                  bahasy: _totalPrice.toString(),
+                                ))),
+                      ),
+                    ),
+                  ]
+                : [],
           );
   }
 

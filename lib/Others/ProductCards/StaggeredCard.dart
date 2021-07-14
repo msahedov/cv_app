@@ -4,7 +4,7 @@ import 'package:e_commerce_app/Others/Models/common.dart';
 import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StaggeredCard extends StatefulWidget {
@@ -75,7 +75,7 @@ class _StaggeredCardState extends State<StaggeredCard> {
                         ),
                       ),
                     ),
-                    Align(alignment: Alignment.topRight, child: likeButton(Feather.heart, true, widget.product.favored != null ? widget.product.favored : false, widget.product.id, userId)),
+                    Align(alignment: Alignment.topRight, child: likeButton(FeatherIcons.heart, true, widget.product.favored != null ? widget.product.favored : false, widget.product.id, userId)),
                     widget.product.discount > 0
                         ? Align(
                             alignment: Alignment.bottomRight,
