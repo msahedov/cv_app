@@ -300,7 +300,6 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
               } else if (snapshot.connectionState == ConnectionState.none) {
                 return NoConnnectionPage();
               }
-
               return SpinKitChasingDots(color: kPrimaryColor_1);
             }),
       ),

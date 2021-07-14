@@ -600,13 +600,9 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                           children: [snapshot.data.subcategories.length > 0 ? subCategories(snapshot.data.subcategories) : SizedBox.shrink(), Expanded(child: gridView(selectSubCategory))],
                         ));
                   }
-                  return Center(
-                    child: spinKit(),
-                  );
+                  return Center(child: spinKit());
                 })
-            : Center(
-                child: spinKit(),
-              ),
+            : Center(child: spinKit()),
       ),
     ));
   }

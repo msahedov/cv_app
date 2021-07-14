@@ -198,16 +198,16 @@ class _BannersState extends State<Banners> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        FutureBuilder<List<BannerModel>>(future: BannerModel.getAllBanners.then((value) {
-          return value;
-        }), builder: (context, snapshot) {
-          if (snapshot.hasError)
-            return hasError();
-          else if (snapshot.hasData)
-            return snapshot.data.length == 0 ? noBanner() : hasData(snapshot.data);
-          else
-            return bannerCardShimmer();
-        }),
+        StreamBuilder<List<BannerModel>>(
+            stream: BannerModel.getAllBanners.asStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError)
+                return hasError();
+              else if (snapshot.hasData)
+                return snapshot.data.length == 0 ? noBanner() : hasData(snapshot.data);
+              else
+                return bannerCardShimmer();
+            }),
       ],
     );
   }

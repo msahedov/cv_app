@@ -43,8 +43,8 @@ class _ListviewDiscountState extends State<ListviewDiscount> {
                     name: AppLocalizations.of(context).arzanladys,
                   )));
         }, context),
-        FutureBuilder<List<Product>>(
-            future: Product().getAllProducts(parametr: {"limit": "10", "sort": "discount"}),
+        StreamBuilder<List<Product>>(
+            stream: Product().getAllProducts(parametr: {"limit": "10", "sort": "discount"}).asStream(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasError)
                 return hasError();

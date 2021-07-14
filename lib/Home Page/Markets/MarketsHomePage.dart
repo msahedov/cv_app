@@ -17,8 +17,6 @@ class MarketsHomePage extends StatefulWidget {
 }
 
 class _MarketsHomePageState extends State<MarketsHomePage> {
-  StreamController _streamController;
-
   Widget hasError() {
     return SizedBox(
       height: 100,
@@ -47,8 +45,8 @@ class _MarketsHomePageState extends State<MarketsHomePage> {
           listName(AppLocalizations.of(context).homePageMarkets, () {
             Navigator.of(context).push(CupertinoPageRoute(builder: (context) => MarketsSearchPage()));
           }, context),
-          FutureBuilder<List<Market>>(
-              future: Market().getAllMarkets(parametr: {"limit": "10"}),
+          StreamBuilder<List<Market>>(
+              stream: Market().getAllMarkets(parametr: {"limit": "10"}).asStream(),
               builder: (BuildContext context, snapshot) {
                 if (snapshot.hasError)
                   return hasError();

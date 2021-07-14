@@ -46,8 +46,8 @@ class _ListviewState extends State<Listview> {
                     name: AppLocalizations.of(context).newProducts,
                   )));
         }, context),
-        FutureBuilder<List<Product>>(
-            future: Product().getAllProducts(parametr: {"limit": "10", "sort": "-createdAt"}),
+        StreamBuilder<List<Product>>(
+            stream: Product().getAllProducts(parametr: {"limit": "10", "sort": "-createdAt"}).asStream(),
             builder: (BuildContext context, snapshot) {
               if (snapshot.hasError)
                 return hasError();
