@@ -132,8 +132,8 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       backgroundColor: textFieldbackColor,
       appBar: appBar(),
-      body: FutureBuilder<List<Product>>(
-          future: Product().getAllProducts(parametr: ({"q": "${searchController.text}"})),
+      body: StreamBuilder<List<Product>>(
+          stream: Product().getAllProducts(parametr: ({"q": "${searchController.text}"})).asStream(),
           builder: (context, snapshot) {
             if (snapshot.hasError)
               return NoDataErrorPage(

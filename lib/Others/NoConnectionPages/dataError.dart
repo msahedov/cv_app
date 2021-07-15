@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 // ignore: must_be_immutable
 class NoDataErrorPage extends StatelessWidget {
   NoDataErrorPage({this.onTap});
@@ -20,11 +22,12 @@ class NoDataErrorPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AutoSizeText(
-            "Maglumat alynmady.\nTäzeden synanşyň",
+            AppLocalizations.of(context).nodataTryagain, // "Maglumat alynmady.\nTäzeden synanşyň",
             textAlign: TextAlign.center,
             maxLines: 3,
-            presetFontSizes: [20, 18, 16, 14],
+            presetFontSizes: [18, 16, 14],
             style: TextStyle(
+              fontWeight: FontWeight.bold,
               fontFamily: popPinsRegular,
               color: kPrimaryColor_1,
             ),
@@ -42,7 +45,7 @@ class NoDataErrorPage extends StatelessWidget {
               onPressed: onTap,
               color: kPrimaryColor_1,
               label: AutoSizeText(
-                "Täzeden synanyş",
+                AppLocalizations.of(context).tryagain, //"Täzeden synanyş",
                 maxLines: 1,
                 presetFontSizes: [18, 16, 14],
                 style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor),

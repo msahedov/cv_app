@@ -16,7 +16,9 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/constants.dart';
 import '../constants/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// ignore: camel_case_types
 class SortPage_Category extends StatefulWidget {
   const SortPage_Category({Key key, this.id, this.name}) : super(key: key);
   final int id;
@@ -24,12 +26,14 @@ class SortPage_Category extends StatefulWidget {
   _SortPage_CategoryState createState() => _SortPage_CategoryState();
 }
 
+// ignore: camel_case_types
 class _SortPage_CategoryState extends State<SortPage_Category> {
   int userId, selectedIndex = 0, selectSubCategory = 0, valuee = 0, selectedIndexFilter = 0;
   bool filterOrSort = true, isOpen = false, listAndGridIcon = false;
   TextEditingController highestPrice = new TextEditingController(), lowestPrice = new TextEditingController();
   Map<String, String> queryParams = <String, String>{};
   AutoSizeGroup group = AutoSizeGroup();
+  List<Map<String, dynamic>> sort = [];
   void getUserData() async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     int uid = _prefs.getInt('uid');
@@ -41,19 +45,13 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
   void initState() {
     super.initState();
     getUserData();
+
     Future.delayed(Duration(milliseconds: 1000), () {
       setState(() {
         isOpen = true;
       });
     });
   }
-
-  List<Map<String, dynamic>> sort = [
-    {"name": "Iň Täzeleri", "index": 0, "sort": "-createdAt"},
-    {"name": "Iň Köp Görülen", "index": 1, "sort": "-viewCount"},
-    {"name": "Gymmatdan -> Arzana", "index": 2, "sort": "-price"},
-    {"name": "Arzandan -> Gymmada", "index": 3, "sort": "price"}
-  ];
 
   List<Map<String, dynamic>> filter = [
     {"name": "price[between]", "sort": "5;10}"},
@@ -71,9 +69,9 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
         backgroundColor: Colors.transparent,
         builder: (context) => Container(
             padding: EdgeInsets.all(28),
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: new BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(25.0),
                 topRight: const Radius.circular(25.0),
               ),
@@ -91,10 +89,10 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                       size: 25,
                     ),
                   ),
-                  Text('Süzgüç', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
+                  Text(AppLocalizations.of(context).filterText, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
                   InkWell(
                     child: Text(
-                      'Arassala',
+                      AppLocalizations.of(context).clearText,
                       textAlign: TextAlign.right,
                       style: TextStyle(color: Colors.black, fontFamily: popPinsMedium),
                     ),
@@ -110,7 +108,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  'Baha Aralygy',
+                  AppLocalizations.of(context).priceInterval,
                   style: TextStyle(color: Colors.black, fontFamily: popPinsMedium),
                 ),
               ),
@@ -129,7 +127,10 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(20.0), hintText: 'Iň Arzan', hintStyle: TextStyle(color: Colors.black26, fontFamily: popPinsMedium), border: InputBorder.none),
+                            contentPadding: EdgeInsets.all(20.0),
+                            hintText: AppLocalizations.of(context).minPrice,
+                            hintStyle: TextStyle(color: Colors.black26, fontFamily: popPinsMedium),
+                            border: InputBorder.none),
                       ),
                     ),
                     Container(
@@ -145,7 +146,10 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                         keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(20), hintText: 'Iň Gymmat', hintStyle: TextStyle(color: Colors.black26, fontFamily: popPinsMedium), border: InputBorder.none),
+                            contentPadding: EdgeInsets.all(20),
+                            hintText: AppLocalizations.of(context).maxPrice,
+                            hintStyle: TextStyle(color: Colors.black26, fontFamily: popPinsMedium),
+                            border: InputBorder.none),
                       ),
                     ),
                   ],
@@ -154,7 +158,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
               Padding(
                 padding: EdgeInsets.only(top: 20),
                 child: Text(
-                  'Süzgüç ',
+                  AppLocalizations.of(context).filterText, //'Süzgüç ',
                   style: TextStyle(fontSize: 18, fontFamily: popPinsMedium),
                 ),
               ),
@@ -182,7 +186,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                                     child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: AutoSizeText(
-                                    'Arzanladyş',
+                                    AppLocalizations.of(context).skidka, //'Arzanladyş',
                                     presetFontSizes: [16, 14, 12, 10, 8],
                                     style: TextStyle(fontFamily: popPinsRegular),
                                   ),
@@ -206,7 +210,6 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                     child: RaisedButton(
                       padding: EdgeInsets.symmetric(vertical: 10),
                       onPressed: () {
-                        //loading = false;
                         if (highestPrice.text.isNotEmpty && lowestPrice.text.isNotEmpty) {
                           selectedIndexFilter = 0;
                         }
@@ -218,7 +221,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                       color: kPrimaryColor,
                       elevation: 1,
                       child: AutoSizeText(
-                        'Gözle',
+                        AppLocalizations.of(context).sortBtn, //'Gözle',
                         maxLines: 1,
                         presetFontSizes: [24, 22, 20, 18, 16, 14],
                         overflow: TextOverflow.ellipsis,
@@ -262,7 +265,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                         size: 25,
                       ),
                     ),
-                    Text('Tertiplemek', textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
+                    Text(AppLocalizations.of(context).sortText, textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontFamily: popPinsSemiBold)),
                     SizedBox(
                       width: 50,
                     ),
@@ -336,7 +339,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                   color: kPrimaryColor,
                   elevation: 1,
                   child: AutoSizeText(
-                    'Tertiple',
+                    AppLocalizations.of(context).sortText, //'Tertiplemek',
                     maxLines: 1,
                     group: group,
                     maxFontSize: 24,
@@ -388,7 +391,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          'Süzgüç',
+                          AppLocalizations.of(context).filterText, //'Süzgüç',
                           style: TextStyle(fontSize: 18.0, color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
                         ),
                       )
@@ -411,7 +414,7 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Text(
-                          'Tertiplemek',
+                          AppLocalizations.of(context).sortText, //'Tertiplemek',
                           style: TextStyle(fontSize: 18.0, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
                         ),
                       )
@@ -427,8 +430,8 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
   }
 
   Widget gridView(int subcategoryId) {
-    return FutureBuilder<List<Product>>(
-        future: Product().getAllProducts(parametr: queryParams),
+    return StreamBuilder<List<Product>>(
+        stream: Product().getAllProducts(parametr: queryParams).asStream(),
         builder: (context, snapshot) {
           if (snapshot.hasError)
             return NoDataErrorPage(
@@ -491,10 +494,10 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
               child: Material(
                 elevation: 2,
                 color: kPrimaryColor,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.0),
                 child: Center(
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                         border: Border.fromBorderSide(BorderSide(color: kPrimaryColor)),
                         color: subcategories[index].id == selectSubCategory ? kPrimaryColor : Colors.white,
@@ -572,7 +575,12 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
 //others
 
   Widget build(BuildContext context) {
-    print(queryParams);
+    sort = [
+      {"name": AppLocalizations.of(context).filterNewProducts, "index": 0, "sort": "-createdAt"},
+      {"name": AppLocalizations.of(context).filterManyViews, "index": 1, "sort": "-viewCount"},
+      {"name": AppLocalizations.of(context).filterprice, "index": 2, "sort": "-price"},
+      {"name": AppLocalizations.of(context).filterPrice, "index": 3, "sort": "price"}
+    ];
     return SafeArea(
         child: Scaffold(
       backgroundColor: Colors.white,
@@ -586,8 +594,8 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
           ];
         },
         body: isOpen
-            ? FutureBuilder<Category>(
-                future: Category().getCategoryById(widget.id),
+            ? StreamBuilder<Category>(
+                stream: Category().getCategoryById(widget.id).asStream(),
                 builder: (BuildContext context, snapshot) {
                   if (snapshot.hasError)
                     return hasError();
@@ -597,7 +605,15 @@ class _SortPage_CategoryState extends State<SortPage_Category> {
                         height: MediaQuery.of(context).size.height,
                         color: textFieldbackColor,
                         child: Column(
-                          children: [snapshot.data.subcategories.length > 0 ? subCategories(snapshot.data.subcategories) : SizedBox.shrink(), Expanded(child: gridView(selectSubCategory))],
+                          children: [
+                            snapshot.data.subcategories.length > 0 ? subCategories(snapshot.data.subcategories) : SizedBox.shrink(),
+                            Expanded(
+                                child: snapshot.data.subcategories.length > 0
+                                    ? gridView(selectSubCategory)
+                                    : EmptyPage(
+                                        selectedIndex: 5,
+                                      ))
+                          ],
                         ));
                   }
                   return Center(child: spinKit());

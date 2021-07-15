@@ -94,7 +94,83 @@
         "brand":"Brend",
 
          "cartPageTitle":"Sebet",
-        "orderingBtn":"Sargyda geç",
-         "aboutUs":"Biz barada"
+        "orderingBtn":"Sargyt etmek",
+         "aboutUs":"Biz barada",
     
+
+         "emptyCart":"Sebediňiz boş",
+         "descEmptyCart":"Sargyt etmek üçin sebediňize haryt goşuň",
+         "cartText":"Sebet",
+         "cartDesc":"Sebediňize haryt goşmak üçin ulgama giriň",
+         
+         
+         "favoriteDesc":"Harytlary halananlaryňyza goşmak üçin ulgama giriň",
+         "favEmpty":"Halanlaryňyz boş!",
+         "favDescription":"Harytlary soň görmek üçin halanlaryňyza goşuň",
+         
+         "noresult":"Haryt tapylmady!",
+         "noresultDesc":"Şu wagtlykça şu kategoriýada harytlar ýok",
+
+         "nopruduct":"Haryt ýok",
+         "noProductDesc":"Hiç hili haryt tapylmady",
+         "orderDesc":"Sargyt etmek üçin ulgama giriň we sebediňize haryt goşuň",
+            
+         "tryagain":"Täzeden synanyş",
+         "nodataTryagain":"Maglumat alynmady.\nTäzeden synanşyň",
+         "noConnect":"Internet baglanyşygy ýok",
+         "errorConnect":"Internet ýok.Internediňizi baglap gaýtadan synanşyň",
+
+
+       "addCartSucces":"Sebede goşuldy",
+       "addcartNotLogin":"Harydy sebediňize goşmak üçin ulgama giriň!",
+       "addToCartprofi":"Sebede Goş",
+       "productSuccesAddFav":"Haryt halanlaryňyza goşuldy!",
+       "productDeleteFav":"Haryt halanlaryňyzdan aýryldy!",
+       "addToFavNotLogin":"Harydy halanlaryňyza goşmak üçin ulgama giriň!",
+       "likeProducts":"Meňzeş harytlar",
+        "comments":"Teswirler",
+        "commentsMany":"Hemmesini gör",
+        "noComment":"Teswir Ýok!",
+        "viewCount":"Görülen sany :",
+        "rating":"Reýting :",
+        "brend":"Brend :",
+        "callToseller":"Jaň etmek",
+   
+        "ordering":"Sargyt Etmek",
+        "inputAddress":"Salgyňyzy giriziň",
+        "hintAddress":"Sargydy eltmeli salgyňyzy giriziň.\nMeselem: Aşgabat şäheriniň Ata türk köçesi 52-nji jaý",
+        "yourAddress":"Salgyňyz",
+        "zametka":"Bellik",
+        "ussa_gerek":"Ussa gerek",
+        "payment":"Töleg görnüşi",
+        "inCash":"Nagt",
+        "inCashDesc":"Sargydy alan wagtyňyz tölemek nagt pul görnüşinde hasaplaşmak",
+        "byTerminal":"Bank karty",
+        "byTerminalDesc":"Sargydy alan wagtyňyz töleg terminalyndan kart arkaly hasaplaşmak",
+        "desc1":"Hormatly müşderi sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt we nagt däl görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar;",
+        "desc2":"Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir. Hyzmat mugt amala aşyrylýar;",
+        "total":"Jemi töleg:",
+        "taskOrderAdd":"Sargyt nobata goýuldy",
+        "notOrdering":"Sargyt etmek üçin sebediňize haryt goşuň",
+        "orderconfirm":"Tassyklamak",
+        "valussagerek":"Gerekli ussaň görnüşini we sebäbini giriziň",
+        "hintussa":"Ussaň görnüşini we sebäbini yazyň",
+        "ussa":"Ussa",
+
+
+        "filterNewProducts":"Iň Täzeleri",
+        "filterManyViews":"Iň Köp Görülen",
+        "filterprice":"Gymmatdan -> Arzana",
+        "filterPrice":"Arzandan -> Gymmada",
+        "sortText":"Tertiplemek",
+        "filterText":"Süzgüç",
+        "clearText":"Arassala",
+        "priceInterval":"Baha Aralygy",
+        "minPrice":"Iň Arzan",
+        "maxPrice":"Iň Gymmat",
+        "skidka":"Arzanladyş",
+        "sortBtn":"Gözle",
+        "noProductInTheAmmar":"Ammardaky mukdaryndan geçdi"
+
+
 }

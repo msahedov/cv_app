@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../Others/constants/constants.dart';
 import '../../Others/constants/widgets.dart';
 
@@ -20,9 +19,7 @@ class ShippingAdress extends StatefulWidget {
 
 class _ShippingAdressState extends State<ShippingAdress> {
   var group = AutoSizeGroup();
-  TextEditingController textController = TextEditingController();
-
-  TextEditingController _addressController = new TextEditingController();
+  TextEditingController textController = TextEditingController(), _addressController = new TextEditingController();
   final _formKEy = GlobalKey<FormState>();
   int _groupValue = 0;
   String _paymentMethod = "inCash";
@@ -39,13 +36,13 @@ class _ShippingAdressState extends State<ShippingAdress> {
           minLines: 2,
           maxLines: 3,
           validator: (value) {
-            if (value.isEmpty && _ussaGerek) return "Gerekli ussaň görnüşini we sebäbini giriziň";
+            if (value.isEmpty && _ussaGerek) return AppLocalizations.of(context).valUssaGerek; //"Gerekli ussaň görnüşini we sebäbini giriziň";
             return null;
           },
           decoration: InputDecoration(
             errorStyle: TextStyle(fontFamily: popPinsRegular),
-            hintText: 'Ussaň görnüşini we sebäbini yazyň',
-            labelText: 'Ussa',
+            hintText: AppLocalizations.of(context).hintussa, //'Ussaň görnüşini we sebäbini yazyň',
+            labelText: AppLocalizations.of(context).ussa, //'Ussa',
             labelStyle: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
             hintStyle: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
             border: OutlineInputBorder(
@@ -68,46 +65,47 @@ class _ShippingAdressState extends State<ShippingAdress> {
             fillColor: Colors.grey.shade50,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: TextFormField(
-            textAlign: TextAlign.start,
-            keyboardType: TextInputType.text,
-            style: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
-            textCapitalization: TextCapitalization.sentences,
-            minLines: 1,
-            maxLines: 1,
-            validator: (value) {
-              if (value.isEmpty && _ussaGerek) return "Gerekli ussaň görnüşini we sebäbini giriziň";
-              return null;
-            },
-            decoration: InputDecoration(
-              errorStyle: TextStyle(fontFamily: popPinsRegular),
-              hintText: 'Telefon Belgiňiz',
-              labelText: 'Telefon belgi',
-              labelStyle: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
-              hintStyle: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
-              border: OutlineInputBorder(
-                borderRadius: borderRadius15,
-                borderSide: BorderSide(
-                  width: 0,
-                  style: BorderStyle.none,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: borderRadius15,
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
-                borderRadius: borderRadius15,
-              ),
-              filled: true,
-              contentPadding: EdgeInsets.all(16),
-              fillColor: Colors.grey.shade50,
-            ),
-          ),
-        ),
+
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: 20),
+        //   child: TextFormField(
+        //     textAlign: TextAlign.start,
+        //     keyboardType: TextInputType.text,
+        //     style: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
+        //     textCapitalization: TextCapitalization.sentences,
+        //     minLines: 1,
+        //     maxLines: 1,
+        //     validator: (value) {
+        //       if (value.isEmpty && _ussaGerek) return "Gerekli ussaň görnüşini we sebäbini giriziň";
+        //       return null;
+        //     },
+        //     decoration: InputDecoration(
+        //       errorStyle: TextStyle(fontFamily: popPinsRegular),
+        //       hintText: 'Telefon Belgiňiz',
+        //       labelText: 'Telefon belgi',
+        //       labelStyle: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
+        //       hintStyle: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
+        //       border: OutlineInputBorder(
+        //         borderRadius: borderRadius15,
+        //         borderSide: BorderSide(
+        //           width: 0,
+        //           style: BorderStyle.none,
+        //         ),
+        //       ),
+        //       focusedBorder: OutlineInputBorder(
+        //         borderSide: BorderSide(color: Colors.white),
+        //         borderRadius: borderRadius15,
+        //       ),
+        //       enabledBorder: UnderlineInputBorder(
+        //         borderSide: BorderSide(color: Colors.white),
+        //         borderRadius: borderRadius15,
+        //       ),
+        //       filled: true,
+        //       contentPadding: EdgeInsets.all(16),
+        //       fillColor: Colors.grey.shade50,
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
@@ -139,7 +137,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                       ),
                     ),
                     AutoSizeText(
-                      'Sargyt Etmek',
+                      AppLocalizations.of(context).ordering, //'Sargyt Etmek',
                       overflow: TextOverflow.ellipsis,
                       stepGranularity: 2,
                       textAlign: TextAlign.center,
@@ -182,7 +180,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                                 TextFormField(
                                   controller: _addressController,
                                   validator: (input) {
-                                    if (input.isEmpty) return 'Salgyňyzy giriziň';
+                                    if (input.isEmpty) return AppLocalizations.of(context).inputAddress; //'Salgyňyzy giriziň';
                                     return null;
                                   },
                                   textAlign: TextAlign.start,
@@ -193,8 +191,8 @@ class _ShippingAdressState extends State<ShippingAdress> {
                                   textCapitalization: TextCapitalization.sentences,
                                   decoration: InputDecoration(
                                     errorStyle: TextStyle(fontFamily: popPinsMedium),
-                                    hintText: 'Sargydy eltmeli salgyňyzy giriziň.\nMeselem: Aşgabat şäheriniň Atatürk köçesi 52-nji jaý',
-                                    labelText: 'Salgyňyz',
+                                    hintText: AppLocalizations.of(context).hintAddress, //'Sargydy eltmeli salgyňyzy giriziň.\nMeselem: Aşgabat şäheriniň Ata türk köçesi 52-nji jaý',
+                                    labelText: AppLocalizations.of(context).yourAddress, //'Salgyňyz',
                                     labelStyle: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
                                     hintStyle: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
                                     border: OutlineInputBorder(
@@ -231,7 +229,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                                   textCapitalization: TextCapitalization.sentences,
                                   decoration: InputDecoration(
                                     hintText: '',
-                                    labelText: 'Bellik',
+                                    labelText: AppLocalizations.of(context).zametka, //'Bellik',
                                     labelStyle: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
                                     hintStyle: TextStyle(fontSize: 16, fontFamily: popPinsMedium),
                                     border: OutlineInputBorder(
@@ -273,7 +271,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                                         });
                                       },
                                       child: AutoSizeText(
-                                        'Ussa gerek',
+                                        AppLocalizations.of(context).ussa_gerek, //'Ussa gerek',
                                         maxLines: 1,
                                         group: group,
                                         presetFontSizes: [18, 16, 14, 12, 10, 8],
@@ -307,7 +305,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText(
-                          "Töleg görnüşi",
+                          AppLocalizations.of(context).payment, //"Töleg görnüşi",
                           textAlign: TextAlign.start,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -318,8 +316,8 @@ class _ShippingAdressState extends State<ShippingAdress> {
                           height: 20,
                         ),
                         _myRadioButton(
-                          title: "Nagt",
-                          subtitle: "Sargydy alan wagtyňyz tölemek nagt pul görnüşinde hasaplaşmak",
+                          title: AppLocalizations.of(context).inCash, //"Nagt",
+                          subtitle: AppLocalizations.of(context).inCashDesc, //"Sargydy alan wagtyňyz tölemek nagt pul görnüşinde hasaplaşmak",
                           value: 0,
                           onChanged: (newValue) => setState(() {
                             _groupValue = newValue;
@@ -327,8 +325,8 @@ class _ShippingAdressState extends State<ShippingAdress> {
                           }),
                         ),
                         _myRadioButton(
-                          title: "Bank karty",
-                          subtitle: "Sargydy alan wagtyňyz töleg terminalyndan kart arkaly hasaplaşmak",
+                          title: AppLocalizations.of(context).byTerminal, //"Bank karty",
+                          subtitle: AppLocalizations.of(context).byTerminalDesc, //"Sargydy alan wagtyňyz töleg terminalyndan kart arkaly hasaplaşmak",
                           value: 1,
                           onChanged: (newValue) => setState(() {
                             _groupValue = newValue;
@@ -346,14 +344,14 @@ class _ShippingAdressState extends State<ShippingAdress> {
                     child: Column(
                       children: [
                         AutoSizeText(
-                          '\u2022  Hormatly müşderi sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt we nagt däl görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar;',
+                          "\u2022  ${AppLocalizations.of(context).desc1}", // '\u2022  Hormatly müşderi sargydy barlap alanyňyzdan soňra töleg amala aşyrylýar. Eltip berijiniň size gowşurýan töleg resminamasynda siziň tölemeli puluňyz bellenendir. Töleg nagt we nagt däl görnüşde milli manatda amala aşyrylýar. Kabul edip tölegini geçiren harydyňyz yzyna alynmaýar;',
                           style: TextStyle(color: Colors.black45, fontSize: 16, fontFamily: popPinsRegular),
                         ),
                         SizedBox(
                           height: 20,
                         ),
                         AutoSizeText(
-                          '\u2022 Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir. Hyzmat mugt amala aşyrylýar;',
+                          "\u2022  ${AppLocalizations.of(context).desc2}", //'\u2022 Eltip bermek hyzmaty Aşgabat şäheriniň çägi bilen bir hatarda Büzmeýine we Änew şäherine hem elýeterlidir. Hyzmat mugt amala aşyrylýar;',
                           style: TextStyle(color: Colors.black45, fontSize: 16, fontFamily: popPinsRegular),
                         ),
                       ],
@@ -387,7 +385,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 AutoSizeText(
-                  'Jemi töleg:',
+                  AppLocalizations.of(context).total, //'Jemi töleg:',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   presetFontSizes: [16, 15, 14, 13, 12, 11, 10],
@@ -423,7 +421,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                           ScaffoldMessenger.of(context)
                             ..removeCurrentSnackBar()
                             ..showSnackBar(SnackBar(
-                                content: Text("Sargyt tassyklandy", style: TextStyle(fontFamily: popPinsRegular, fontSize: 15, color: kPrimaryColor)),
+                                content: Text(AppLocalizations.of(context).taskOrderAdd, style: TextStyle(fontFamily: popPinsRegular, fontSize: 15, color: kPrimaryColor)),
                                 backgroundColor: kPrimaryColor_1,
                                 action: SnackBarAction(
                                   textColor: kPrimaryColor,
@@ -438,7 +436,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                           ScaffoldMessenger.of(context)
                             ..removeCurrentSnackBar()
                             ..showSnackBar(SnackBar(
-                                content: Text("Sargyt etmek üçin sebediňize haryt goşuň", style: TextStyle(fontFamily: popPinsRegular, fontSize: 15, color: kPrimaryColor)),
+                                content: Text(AppLocalizations.of(context).notOrdering, style: TextStyle(fontFamily: popPinsRegular, fontSize: 15, color: kPrimaryColor)),
                                 backgroundColor: kPrimaryColor_1,
                                 action: SnackBarAction(
                                   textColor: kPrimaryColor,
@@ -455,7 +453,7 @@ class _ShippingAdressState extends State<ShippingAdress> {
                 child: Padding(
                   padding: EdgeInsets.all(5.0),
                   child: AutoSizeText(
-                    'Tassyklamak',
+                    AppLocalizations.of(context).orderconfirm, //'Tassyklamak',
                     maxLines: 1,
                     presetFontSizes: [22, 21, 20, 18, 16, 14, 12, 10, 8],
                     overflow: TextOverflow.ellipsis,

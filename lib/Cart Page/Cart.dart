@@ -262,7 +262,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                   if (cart.qty <= 0) {
                                     Cart().removeProductFromCart(userId: userId, productId: cart.id).whenComplete(() {
                                       setState(() {});
-                                      showMessage("Haryt sebediňizden aýryldy", context);
+                                      //showMessage("Haryt sebediňizden aýryldy", context);
                                     });
                                   } else {
                                     int productCount = cart.qty;
@@ -307,7 +307,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                                       setState(() {});
                                     });
                                   } else {
-                                    showMessage("Haryt ammarda gutardy", context);
+                                    showMessage(AppLocalizations.of(context).noProductInTheAmmar, context);
                                   }
                                 },
                                 child: Container(
@@ -348,9 +348,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                         future: Cart().getAllItemsFromCart(userId: userId).then((value) {
                           _totalPrice = totalPrice(value);
                           return value;
-                        }).whenComplete(() {
-                          
-                        }),
+                        }).whenComplete(() {}),
                         builder: (context, snapshot) {
                           if (snapshot.hasError)
                             return NoDataErrorPage(
@@ -414,7 +412,7 @@ class _CartPageState extends State<CartPage> with SingleTickerProviderStateMixin
                     Container(
                         width: MediaQuery.of(context).size.width - 150,
                         child: Text(
-                          "Jemi: $_totalPrice tmt",
+                          "${AppLocalizations.of(context).total} $_totalPrice tmt",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 16, fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
                         )),

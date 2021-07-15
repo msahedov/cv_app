@@ -14,6 +14,7 @@ import 'package:readmore/readmore.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductProfile extends StatefulWidget {
   final int productId;
@@ -55,9 +56,11 @@ class _ProductProfileState extends State<ProductProfile> {
           onPressed: () {
             if (userIdd != null) {
               Cart().addProductToCartById(userId: userIdd, productId: productIdd, qty: 1);
-              showMessage("Sebede goşuldy", context);
+              // showMessage("Sebede goşuldy", context);
+              showMessage(AppLocalizations.of(context).addCartSucces, context);
             } else {
-              showMessage("Harydy sebediňize goşmak üçin ulgama giriň !", context);
+              //showMessage("Harydy sebediňize goşmak üçin ulgama giriň!", context);
+              showMessage(AppLocalizations.of(context).addcartNotLogin, context);
             }
           },
           splashColor: Colors.transparent,
@@ -66,7 +69,8 @@ class _ProductProfileState extends State<ProductProfile> {
           child: Padding(
             padding: const EdgeInsets.all(7.0),
             child: AutoSizeText(
-              'Sebede Goş',
+              //'Sebede Goş',
+              AppLocalizations.of(context).addToCartprofi,
               maxLines: 1,
               presetFontSizes: [22, 20, 18, 17, 16, 15, 14, 12, 11, 10],
               overflow: TextOverflow.ellipsis,
@@ -106,13 +110,16 @@ class _ProductProfileState extends State<ProductProfile> {
                   });
                   if (addFavorite == true) {
                     Product().addToFavoriteByID(widget.productId);
-                    showMessage("Haryt halanlaryňyza goşuldy !", context);
+                    showMessage(AppLocalizations.of(context).productSuccesAddFav, context);
+                    //"Haryt halanlaryňyza goşuldy!"
                   } else {
                     Favorites().deleteFavoriteById(productId: widget.productId, userId: userIdd);
-                    showMessage("Haryda halanlaryňyzda aýryldy !", context);
+                    showMessage(AppLocalizations.of(context).productDeleteFav, context);
+                    //"Haryt halanlaryňyzdan aýryldy!"
                   }
                 } else {
-                  showMessage("Haryda halanlaryňyza goşmak üçin ulgama giriň !", context);
+                  showMessage(AppLocalizations.of(context).addToFavNotLogin, context);
+                  //"Harydy halanlaryňyza goşmak üçin ulgama giriň!"
                 }
               }),
         ),
@@ -138,12 +145,12 @@ class _ProductProfileState extends State<ProductProfile> {
               Container(
                 color: textFieldbackColor,
                 padding: const EdgeInsets.only(bottom: 10),
-                child:GestureDetector(
+                child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(CupertinoPageRoute(
                         builder: (context) => Photoview(
-                          images: images,
-                        )));
+                              images: images,
+                            )));
                   },
                   child: CachedNetworkImage(
                     colorBlendMode: BlendMode.difference,
@@ -177,38 +184,6 @@ class _ProductProfileState extends State<ProductProfile> {
                           })),
                 ),
               ),
-              // Positioned(
-              //   top: 130,
-              //   right: 0,
-              //   child: Padding(
-              //     padding: const EdgeInsets.fromLTRB(0, 0, 12, 0),
-              //     child: AnimatedOpacity(
-              //       opacity: top < 350 ? 0.0 : 1.0,
-              //       duration: Duration(milliseconds: 800),
-              //       child: customButton(
-              //           image: 'assets/icons/thumbs_up.svg',
-              //           color: likProduct ? kPrimaryColor : kPrimaryColor_1,
-              //           onTap: () {
-              //             if (userIdd != null) {
-              //               setState(() {
-              //                 likProduct = !likProduct;
-              //               });
-
-              //               if (likProduct == true) {
-              //                 Product().likeProductById(widget.productId);
-              //                 showMessage("Haryda like goýduňyz !", context);
-              //                 setState(() {});
-              //               } else {
-              //                 showMessage("Haryda öň like goýguňyz!", context);
-              //                 setState(() {});
-              //               }
-              //             } else {
-              //               showMessage("Haryda like goýmak üçin ulgama giriň !", context);
-              //             }
-              //           }),
-              //     ),
-              //   ),
-              // )
             ],
           ),
         );
@@ -223,7 +198,7 @@ class _ProductProfileState extends State<ProductProfile> {
       children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 30),
-            child: AutoSizeText("Meňzeş harytlar",
+            child: AutoSizeText(AppLocalizations.of(context).likeProducts, //"Meňzeş harytlar",
                 presetFontSizes: [20, 18, 16, 14, 12, 10, 8],
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
@@ -265,7 +240,7 @@ class _ProductProfileState extends State<ProductProfile> {
       children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(20, 40, 20, 30),
-            child: AutoSizeText("Teswirler",
+            child: AutoSizeText(AppLocalizations.of(context).comments, //"Teswirler",
                 presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
@@ -346,8 +321,8 @@ class _ProductProfileState extends State<ProductProfile> {
                                             colorClickableText: Colors.black,
                                             trimMode: TrimMode.Line,
                                             style: TextStyle(color: Colors.black, fontFamily: popPinsMedium),
-                                            trimCollapsedText: 'Hemmesini gör',
-                                            trimExpandedText: 'Ýap',
+                                            trimCollapsedText: AppLocalizations.of(context).commentsMany, //'Hemmesini gör',
+                                            trimExpandedText: AppLocalizations.of(context).closeBtn, //'Ýap',
                                             moreStyle: TextStyle(fontSize: 14, fontFamily: popPinsSemiBold, color: Colors.black),
                                           ),
                                         ),
@@ -360,7 +335,7 @@ class _ProductProfileState extends State<ProductProfile> {
                           },
                         )
                       : Center(
-                          child: AutoSizeText("Teswir Ýok !",
+                          child: AutoSizeText(AppLocalizations.of(context).noComment, //"Teswir Ýok!",
                               maxLines: 2,
                               textAlign: TextAlign.center,
                               presetFontSizes: [22, 20, 18, 16, 14, 12, 10, 8],
@@ -466,8 +441,9 @@ class _ProductProfileState extends State<ProductProfile> {
                     ),
                     AutoSizeText(
                       '$text',
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      presetFontSizes: [18, 17, 16, 15, 14, 13, 12, 11],
+                      presetFontSizes: [16, 15, 14, 13, 12, 11],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: color ? Colors.black : Colors.grey[500],
@@ -487,22 +463,22 @@ class _ProductProfileState extends State<ProductProfile> {
             children: [
               categoryText(
                 FeatherIcons.eye,
-                "Görülen sany :",
+                AppLocalizations.of(context).viewCount, //"Görülen sany :",
                 false,
               ),
-              categoryText(
-                FeatherIcons.thumbsUp,
-                "Halanan sany :",
-                false,
-              ),
+              // categoryText(
+              //   FeatherIcons.thumbsUp,
+              //   "Halanan sany :",
+              //   false,
+              // ),
               categoryText(
                 FeatherIcons.star,
-                "Rating :",
+                AppLocalizations.of(context).rating, //"Rating :",
                 false,
               ),
               categoryText(
                 FeatherIcons.circle,
-                "Brend :",
+                AppLocalizations.of(context).brend, //"Brend :",
                 false,
               ),
             ],
@@ -518,11 +494,11 @@ class _ProductProfileState extends State<ProductProfile> {
                 "${_product.viewCount}",
                 true,
               ),
-              categoryText(
-                FeatherIcons.heart,
-                "${_product.likeCount}",
-                true,
-              ),
+              // categoryText(
+              //   FeatherIcons.heart,
+              //   "${_product.likeCount}",
+              //   true,
+              // ),
               categoryText(
                 FeatherIcons.star,
                 "${_product.rating}",
@@ -564,7 +540,7 @@ class _ProductProfileState extends State<ProductProfile> {
                   width: 10,
                 ),
                 Text(
-                  'Jaň etmek',
+                  AppLocalizations.of(context).callToseller, //'Jaň etmek',
                   style: TextStyle(color: kPrimaryColor_1, fontFamily: popPinsSemiBold),
                 )
               ],

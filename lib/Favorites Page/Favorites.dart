@@ -104,7 +104,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
 
   Widget favoriteCard(Product product, index) {
     Size size = MediaQuery.of(context).size;
-    double rating = double.parse(product.rating);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       child: (Slidable(
@@ -258,7 +258,7 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         text: TextSpan(
-                          text: "${AppLocalizations.of(context).seller} : ",
+                          text: "${AppLocalizations.of(context).brend} ",
                           style: TextStyle(color: kPrimaryColor_1, fontSize: 15, fontFamily: popPinsMedium),
                           children: <TextSpan>[
                             TextSpan(
@@ -300,20 +300,24 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
                         width: size.width,
                         child: RaisedButton(
                           onPressed: () {
-                            if (itemLike[index]["addCart"] == "false" && userIdd != null) {
-                              setState(() {
-                                itemLike[index]["addCart"] = "true";
-                              });
-                            }
-                            if (itemLike[index]["addCart"] == "true" && userIdd != null) {
-                              Cart().addProductToCartById(userId: userIdd, productId: product.id, qty: 1);
-                              showMessage("Sebede goşuldy", context);
-                              Future.delayed(Duration(milliseconds: 1000), () {
-                                setState(() {
-                                  itemLike[index]["addCart"] = "false";
-                                });
-                              });
-                            }
+                            Cart().addProductToCartById(userId: userIdd, productId: product.id, qty: 1).whenComplete(() {
+                              showMessage(AppLocalizations.of(context).addCartSucces, context);
+                            });
+
+                            // if (itemLike[index]["addCart"] == "false" && userIdd != null) {
+                            //   setState(() {
+                            //     itemLike[index]["addCart"] = "true";
+                            //   });
+                            // }
+                            // if (itemLike[index]["addCart"] == "true" && userIdd != null) {
+                            //   Cart().addProductToCartById(userId: userIdd, productId: product.id, qty: 1);
+                            //   showMessage(AppLocalizations.of(context).addCartSucces, context);
+                            //   Future.delayed(Duration(milliseconds: 1000), () {
+                            //     setState(() {
+                            //       itemLike[index]["addCart"] = "false";
+                            //     });
+                            //   });
+                            // }
                           },
                           shape: RoundedRectangleBorder(borderRadius: borderRadius10),
                           color: kPrimaryColor,
@@ -347,8 +351,8 @@ class _FavoritesPageState extends State<FavoritesPage> with SingleTickerProvider
             appBar: appBar(),
             backgroundColor: textFieldbackColor,
             body: _isLogin
-                ? FutureBuilder<List<Product>>(
-                    future: Favorites().getAllFavoriteProducts(userId: userIdd),
+                ? StreamBuilder<List<Product>>(
+                    stream: Favorites().getAllFavoriteProducts(userId: userIdd).asStream(),
                     builder: (BuildContext context, snapshot) {
                       if (snapshot.hasError)
                         return NoDataErrorPage(onTap: () {

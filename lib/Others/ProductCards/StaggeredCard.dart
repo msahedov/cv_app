@@ -6,6 +6,7 @@ import 'package:e_commerce_app/Others/constants/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class StaggeredCard extends StatefulWidget {
   const StaggeredCard({Key key, this.product}) : super(key: key);
@@ -36,7 +37,7 @@ class _StaggeredCardState extends State<StaggeredCard> {
         shape: RoundedRectangleBorder(borderRadius: borderRadius15),
         duration: Duration(milliseconds: 1000),
         behavior: SnackBarBehavior.floating,
-        content: new Text(
+        content: Text(
           "$text",
           textAlign: TextAlign.center,
           style: TextStyle(color: kPrimaryColor, fontFamily: popPinsSemiBold),
@@ -131,7 +132,7 @@ class _StaggeredCardState extends State<StaggeredCard> {
                                 RichText(
                                   overflow: TextOverflow.ellipsis,
                                   text: new TextSpan(
-                                    text: '${widget.product.price ?? "0"} ',
+                                    text: '${widget.product.price} ',
                                     style: TextStyle(decoration: TextDecoration.lineThrough, decorationColor: Colors.red, color: kPrimaryColor_1, fontSize: 17, fontFamily: popPinsSemiBold),
                                     children: <TextSpan>[
                                       new TextSpan(
@@ -146,11 +147,11 @@ class _StaggeredCardState extends State<StaggeredCard> {
                           )
                         : RichText(
                             overflow: TextOverflow.ellipsis,
-                            text: new TextSpan(
+                            text: TextSpan(
                               text: '${widget.product.price} ',
                               style: TextStyle(color: kPrimaryColor_1, fontSize: 20, fontFamily: popPinsSemiBold),
                               children: <TextSpan>[
-                                new TextSpan(
+                                TextSpan(
                                   text: 'TMT ',
                                   style: TextStyle(color: kPrimaryColor_1, fontSize: 15, fontFamily: popPinsMedium),
                                 ),
@@ -210,17 +211,20 @@ class _StaggeredCardState extends State<StaggeredCard> {
                         onPressed: () {
                           if (userId != null) {
                             Cart().addProductToCartById(userId: userId, productId: widget.product.id, qty: 1).then((value) {
-                              showMessage("Sebede goşuldy", context);
+                              //showMessage("Sebede goşuldy", context);
+                              showMessage(AppLocalizations.of(context).addCartSucces, context);
+                              //"Sebede goşuldy"
                             });
                           } else {
-                            showMessage("Harydy sebediňize goşmak üçin ulgama giriň !", context);
+                            showMessage(AppLocalizations.of(context).addcartNotLogin, context);
+                            //"Harydy sebediňize goşmak üçin ulgama giriň !"
                           }
                         },
                         shape: RoundedRectangleBorder(borderRadius: borderRadius10),
                         color: kPrimaryColor,
                         elevation: 1,
                         child: AutoSizeText(
-                          'Sebede goş',
+                          AppLocalizations.of(context).addToCartprofi, //'Sebede goş',
                           maxLines: 1,
                           stepGranularity: 1,
                           presetFontSizes: [16, 14, 12],

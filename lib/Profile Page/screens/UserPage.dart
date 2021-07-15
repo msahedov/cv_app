@@ -95,8 +95,8 @@ class _UserPageState extends State<UserPage> with TickerProviderStateMixin {
                 });
               }),
         ], title: widget.title, context: context),
-        body: FutureBuilder<UserModel>(
-            future: UserModel.getMe,
+        body: StreamBuilder<UserModel>(
+            stream: UserModel.getMe.asStream(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError)

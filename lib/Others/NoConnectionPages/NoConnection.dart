@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoConnnectionPage extends StatefulWidget {
   @override
@@ -31,14 +32,16 @@ class _NoConnnectionPageState extends State<NoConnnectionPage> {
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
             child: Text(
-              'Нет соединения с интернетом',
+              AppLocalizations.of(context).noConnect, //'Нет соединения с интернетом',
               style: TextStyle(color: kPrimaryColor_1, fontSize: 18, fontFamily: popPinsBold, fontWeight: FontWeight.bold, shadows: [Shadow(color: kPrimaryColor_1, blurRadius: 1)]),
             ),
           ),
           RaisedButton(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Text(
-              'Повторить попытку',
+              AppLocalizations.of(context).tryagain,
+
+              ///'Повторить попытку',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: kPrimaryColor, fontFamily: popPinsSemiBold),
             ),
             onPressed: () {
@@ -57,7 +60,7 @@ class _NoConnnectionPageState extends State<NoConnnectionPage> {
                     elevation: 5.0,
                     backgroundColor: kPrimaryColor_1,
                     content: Text(
-                      'Не удалось. Попробуйте еще раз',
+                      AppLocalizations.of(context).errorConnect, //'Не удалось. Попробуйте еще раз',
                       style: TextStyle(color: kPrimaryColor, fontSize: 16.0, fontStyle: FontStyle.italic, fontFamily: popPinsRegular),
                     ),
                   ),

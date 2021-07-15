@@ -19,22 +19,8 @@ class MarketProfilePage extends StatefulWidget {
   _MarketProfilePageState createState() => _MarketProfilePageState();
 }
 
-class Constants {
-  static const String FirstItem = 'Market barada';
-  static const String SecondItem = 'Jaň etmek';
-  static const List<String> choices = <String>[
-    FirstItem,
-    SecondItem,
-  ];
-}
-
 class _MarketProfilePageState extends State<MarketProfilePage> {
-  var icons = [FeatherIcons.user, FeatherIcons.bold, FeatherIcons.watch, FeatherIcons.gift, FeatherIcons.smartphone, FeatherIcons.headphones, FeatherIcons.database, FeatherIcons.book];
   bool isOpen = false;
-  //FeatherIcons.shirt_outlineFeatherIcons.soccer_ball_o
-  var text = ['Sana degişli', 'Eşikler', 'Sagatlar', 'Sowgatlar', 'Elektronika', 'Ses enjamlary', 'Sport', 'Kitaplar'];
-
-  TabController _tabController;
 
   @override
   void initState() {
@@ -129,73 +115,6 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
     );
   }
 
-  Widget tabbarPart() {
-    tabbarName(
-      String name,
-    ) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Text(
-          name,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return TabBar(
-        labelColor: Colors.black,
-        labelStyle: TextStyle(fontFamily: popPinsSemiBold, fontSize: 20),
-        unselectedLabelStyle: TextStyle(fontFamily: popPinsMedium, fontSize: 18),
-        indicatorColor: kPrimaryColor,
-        indicator: BoxDecoration(border: Border.all(color: kPrimaryColor, width: 2), borderRadius: borderRadius20),
-        controller: _tabController,
-        tabs: <Widget>[
-          tabbarName(
-            'Harytlar',
-          ),
-          // tabbarName(
-          //   'Kategoriyalar',
-          // ),
-        ]);
-  }
-
-  Widget kategoriya() {
-    return ListView.builder(
-      itemCount: icons.length,
-      itemBuilder: (BuildContext context, int index) {
-        return InkWell(
-          child: Container(
-            width: 100,
-            margin: EdgeInsets.all(10),
-            child: Material(
-                elevation: 3,
-                borderRadius: BorderRadius.circular(10),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: Icon(icons[index], size: 35, color: kPrimaryColor),
-                      ),
-                      Text(
-                        text[index],
-                        maxLines: 3,
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontFamily: popPinsSemiBold),
-                      )
-                    ],
-                  ),
-                )),
-          ),
-        );
-      },
-    );
-  }
-
   categoryText(IconData icon, text, bool color) {
     return Padding(
         padding: const EdgeInsets.only(top: 15, bottom: 5),
@@ -234,8 +153,8 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
   @override
   Widget build(BuildContext context) {
     return isOpen
-        ? FutureBuilder<Market>(
-            future: Market().getMarketById(widget.marketID).then((value) => value),
+        ? StreamBuilder<Market>(
+            stream: Market().getMarketById(widget.marketID).then((value) => value).asStream(),
             builder: (context, snapshot) {
               if (snapshot.hasError)
                 return NoDataErrorPage(
@@ -359,8 +278,8 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                       thickness: 3,
                                     ),
                                     Expanded(
-                                      child: FutureBuilder<List<Product>>(
-                                          future: Product().getAllProducts(parametr: {"marketId": "${widget.marketID}"}),
+                                      child: StreamBuilder<List<Product>>(
+                                          stream: Product().getAllProducts(parametr: {"marketId": "${widget.marketID}"}).asStream(),
                                           builder: (context, snapshot) {
                                             if (snapshot.hasError)
                                               return NoDataErrorPage(
@@ -398,52 +317,6 @@ class _MarketProfilePageState extends State<MarketProfilePage> {
                                               return shimmerGrid();
                                           }),
                                     ),
-                                    // Expanded(
-                                    //   child: TabBarView(
-                                    //     controller: _tabController,
-                                    //     children: [
-                                    //       FutureBuilder<List<Product>>(
-                                    //           future: Product().getAllProducts(parametr: {"marketId": "${widget.marketID}"}),
-                                    //           builder: (context, snapshot) {
-                                    //             if (snapshot.hasError)
-                                    //               return NoDataErrorPage(
-                                    //                 onTap: () {},
-                                    //               );
-                                    //             else if (snapshot.hasData)
-                                    //               return GridView.builder(
-                                    //                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    //                   crossAxisCount: 2,
-                                    //                   childAspectRatio: 3 / 4.8,
-                                    //                 ),
-                                    //                 itemCount: snapshot.data.length,
-                                    //                 physics: BouncingScrollPhysics(),
-                                    //                 itemBuilder: (BuildContext context, int index) {
-                                    //                   return GestureDetector(
-                                    //                       onTap: () {
-                                    //                         Navigator.push(
-                                    //                             context,
-                                    //                             CupertinoPageRoute(
-                                    //                                 builder: (context) => ProductProfile(
-                                    //                                       productId: snapshot.data[index].id,
-                                    //                                     )));
-                                    //                         return null;
-                                    //                       },
-                                    //                       child: StaggeredCard(
-                                    //                         product: snapshot.data[index],
-                                    //                       ));
-                                    //                 },
-                                    //               );
-                                    //             else
-                                    //               return shimmerGrid();
-                                    //           }),
-                                    //       kategoriya(),
-                                    //     ],
-                                    //   ),
-                                    // ),
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(vertical: 15),
-                                    //   child: tabbarPart(),
-                                    // ),
                                   ],
                                 ),
                               ),
