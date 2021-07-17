@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/Others/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'l10n.dart';
@@ -8,12 +7,12 @@ class LanguagePickerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      shape: RoundedRectangleBorder(borderRadius: borderRadius10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       color: Colors.white,
       icon: Icon(
         Icons.language,
         size: 30,
-        color: kPrimaryColor_1,
+        color: Colors.green,
       ),
       onSelected: (locale) {
         final provider = Provider.of<LocaleProvider>(context, listen: false);
@@ -26,10 +25,10 @@ class LanguagePickerWidget extends StatelessWidget {
           print(languageName);
           return PopupMenuItem<String>(
             value: locale.languageCode,
-            textStyle: TextStyle(fontFamily: popPinsSemiBold),
+            textStyle: TextStyle(fontFamily: "Poppins_SemiBold"),
             child: Text(
               languageName,
-              style: TextStyle(fontFamily: popPinsSemiBold, color: kPrimaryColor_1),
+              style: TextStyle(fontFamily: "Poppins_SemiBold", color: Colors.green),
             ),
           );
         }).toList();
