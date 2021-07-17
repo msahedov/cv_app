@@ -39,7 +39,6 @@ dependencies:
   telephony: ^0.1.4
   flutter_bloc: ^7.0.1
   web_socket_channel: ^2.1.0
-  moor: ^4.4.1
   yandex_mapkit: ^1.0.1
 dev_dependencies:
   flutter_test: 
