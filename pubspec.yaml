@@ -49,20 +49,7 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
-    - assets/icons/
-    - assets/images/diller/
-    - assets/images/emptyState/ 
+     
 
   fonts:
-    - family: Poppins_Bold
-      fonts:
-        - asset: assets/fonts/Poppins-Bold.ttf
-    - family: Poppins_SemiBold
-      fonts:
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-    - family: Poppins_Regular
-      fonts:
-        - asset: assets/fonts/Poppins-Regular.ttf
-    - family: Poppins_Medium
-      fonts:
-        - asset: assets/fonts/Poppins-Medium.ttf
+    

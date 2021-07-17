@@ -112,19 +112,13 @@ class CounterPage extends StatelessWidget {
   }
 }
 
-/// Event being processed by [CounterBloc].
 enum CounterEvent {
   increment,
   decrement,
   error,
 }
 
-/// {@template counter_bloc}
-/// A simple [Bloc] which manages an `int` as its state.
-/// {@endtemplate}
-
 class CounterBloc extends Bloc<CounterEvent, int> {
-  /// {@macro counter_bloc}
   CounterBloc() : super(0);
 
   @override
@@ -142,11 +136,7 @@ class CounterBloc extends Bloc<CounterEvent, int> {
   }
 }
 
-/// {@template brightness_cubit}
-/// A simple [Cubit] which manages the [ThemeData] as its state.
-/// {@endtemplate}
 class ThemeCubit extends Cubit<ThemeData> {
-  /// {@macro brightness_cubit}
   ThemeCubit() : super(_lightTheme);
 
   static final _lightTheme = ThemeData(
@@ -163,7 +153,6 @@ class ThemeCubit extends Cubit<ThemeData> {
     brightness: Brightness.dark,
   );
 
-  /// Toggles the current brightness between light and dark.
   void toggleTheme() {
     emit(state.brightness == Brightness.dark ? _lightTheme : _darkTheme);
   }
