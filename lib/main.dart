@@ -3,96 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 
-// void main() async {
+// void main(){
 //   WidgetsFlutterBinding.ensureInitialized();
 //   SystemChrome.setPreferredOrientations([
 //     DeviceOrientation.portraitUp,
 //     DeviceOrientation.portraitDown,
 //   ]);
-
-//   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-//     statusBarBrightness: Brightness.dark,
-//     statusBarIconBrightness: Brightness.dark,
-//     systemNavigationBarColor: Colors.black,
-//     statusBarColor: Colors.white,
-//   ));
-
-//   runApp(
-//     RestartWidget(
-//       child: SendOtp(),
-//     ),
-//   );
-// }
-
-// class MyApp extends StatefulWidget {
-//   @override
-//   _MyAppState createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-//   static final String oneSignalAppId = "b82bb0e7-50b1-49b8-84a0-f6bc1031649f";
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     initPlatformState();
-//   }
-
-//   Future<void> initPlatformState() async {
-//     //OneSignal.shared.setAppId(oneSignalAppId);
-//   }
-
-//   Widget build(BuildContext context) => ChangeNotifierProvider(
-//         create: (context) => LocaleProvider(),
-//         builder: (context, child) {
-//           final provider = Provider.of<LocaleProvider>(context);
-//           return MaterialApp(
-//               debugShowCheckedModeBanner: false,
-//               title: "Ussa",
-//               onGenerateRoute: CustomRouter.allRoutes,
-//               initialRoute: bottomnavbar,
-//               locale: provider.locale,
-//               supportedLocales: L10n.all,
-//               localizationsDelegates: [
-//                 AppLocalizations.delegate,
-//                 GlobalMaterialLocalizations.delegate,
-//                 GlobalCupertinoLocalizations.delegate,
-//                 GlobalWidgetsLocalizations.delegate,
-//               ]);
-//         },
-//       );
-// }
-
-// //app restart widget
-// class RestartWidget extends StatefulWidget {
-//   RestartWidget({this.child});
-//   final Widget child;
-
-//   static void restartApp(BuildContext context) {
-//     context.findAncestorStateOfType<_RestartWidgetState>().restartApp();
-//   }
-
-//   @override
-//   _RestartWidgetState createState() => _RestartWidgetState();
-// }
-
-// class _RestartWidgetState extends State<RestartWidget> {
-//   Key key = UniqueKey();
-//   void restartApp() {
-//     setState(() {
-//       key = UniqueKey();
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return KeyedSubtree(
-//       key: key,
-//       child: widget.child,
-//     );
-//   }
-// }
-/// Custom [BlocObserver] which observes all bloc and cubit instances.
 
 class SimpleBlocObserver extends BlocObserver {
   @override
@@ -116,13 +32,13 @@ class SimpleBlocObserver extends BlocObserver {
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(App());
 }
-
-/// A [StatelessWidget] which uses:
-/// * [bloc](https://pub.dev/packages/bloc)
-/// * [flutter_bloc](https://pub.dev/packages/flutter_bloc)
-/// to manage the state of a counter.
 
 class App extends StatelessWidget {
   @override
@@ -133,6 +49,7 @@ class App extends StatelessWidget {
         builder: (_, theme) {
           return MaterialApp(
             theme: theme,
+            debugShowCheckedModeBanner: false,
             home: BlocProvider(
               create: (_) => CounterBloc(),
               child: CounterPage(),
@@ -143,9 +60,6 @@ class App extends StatelessWidget {
     );
   }
 }
-
-/// A [StatelessWidget] which demonstrates
-/// how to consume and interact with a [CounterBloc].
 
 class CounterPage extends StatelessWidget {
   @override
@@ -200,13 +114,8 @@ class CounterPage extends StatelessWidget {
 
 /// Event being processed by [CounterBloc].
 enum CounterEvent {
-  /// Notifies bloc to increment state.
   increment,
-
-  /// Notifies bloc to decrement state.
   decrement,
-
-  /// Notifies the bloc of an error
   error,
 }
 
