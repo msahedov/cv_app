@@ -1,65 +1,48 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+import 'csv_main_page.dart';
 import 'csv_model.dart';
+import 'db_helper.dart';
 
-class CsvViewPage extends StatefulWidget {
+class CsvEditPage extends StatefulWidget {
   final Person person;
 
-  const CsvViewPage({
+  const CsvEditPage({
     this.person,
   });
   @override
   _CsvViewPageState createState() => _CsvViewPageState();
 }
 
-class _CsvViewPageState extends State<CsvViewPage> {
-  void savePdfFile() async {
-    final pdf = pw.Document();
-    final output = await getExternalStorageDirectory();
-    final image = pw.MemoryImage(widget.person.photo);
-    pdf.addPage(pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.Row(crossAxisAlignment: pw.CrossAxisAlignment.start, mainAxisAlignment: pw.MainAxisAlignment.start, children: [
-            pw.Image(image, height: 120, width: 120, fit: pw.BoxFit.cover),
-            pw.SizedBox(width: 30),
-            pw.Expanded(
-                child: pw.Column(
-              mainAxisAlignment: pw.MainAxisAlignment.start,
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(widget.person.name, style: pw.TextStyle(fontSize: 20)),
-                pw.Text(widget.person.address, style: pw.TextStyle(fontSize: 20)),
-                pw.Text(widget.person.email, style: pw.TextStyle(fontSize: 20)),
-                pw.Text(widget.person.phone, style: pw.TextStyle(fontSize: 20)),
-              ],
-            )),
-          ]);
-          // Center
-        })); //
-
-    final file = File("${output.path}/${widget.person.name}.pdf");
-    await file.create();
-    await file.writeAsBytes(await pdf.save());
-    file.exists();
-  }
-
+class _CsvViewPageState extends State<CsvEditPage> {
   var image;
   @override
   void initState() {
     setState(() {
       image = widget.person.photo;
+      _name.text = widget.person.name;
+      _address.text = widget.person.address;
+      _email.text = widget.person.email;
+      _phone.text = widget.person.phone;
     });
     super.initState();
   }
 
+  TextEditingController _name = TextEditingController();
+  TextEditingController _address = TextEditingController();
+  TextEditingController _email = TextEditingController();
+  TextEditingController _phone = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage())),
+        ),
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.blue,
         title: Text(
           "Resume",
@@ -107,8 +90,7 @@ class _CsvViewPageState extends State<CsvViewPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                readOnly: true,
-                initialValue: widget.person.name,
+                controller: _name,
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: "Bellota_Bold",
@@ -138,12 +120,11 @@ class _CsvViewPageState extends State<CsvViewPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: _address,
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: "Bellota_Bold",
                 ),
-                initialValue: widget.person.address,
-                readOnly: true,
                 minLines: 4,
                 maxLines: 4,
                 decoration: InputDecoration(
@@ -171,12 +152,11 @@ class _CsvViewPageState extends State<CsvViewPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: _email,
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: "Bellota_Bold",
                 ),
-                initialValue: widget.person.email,
-                readOnly: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -202,12 +182,11 @@ class _CsvViewPageState extends State<CsvViewPage> {
               ),
               SizedBox(height: 10),
               TextFormField(
+                controller: _phone,
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: "Bellota_Bold",
                 ),
-                initialValue: widget.person.phone,
-                readOnly: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -222,23 +201,25 @@ class _CsvViewPageState extends State<CsvViewPage> {
                 ),
               ),
               SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 20,
+                height: 40,
               ),
               Center(
                 child: FlatButton.icon(
                     padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
                     icon: Icon(
-                      Icons.download,
+                      Icons.update,
                       color: Colors.white,
                     ),
                     color: Colors.blue,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                    onPressed: () => savePdfFile(),
+                    onPressed: () {
+                      DatabaseHelper()
+                          .UpdatePerson(Person(_name.text, _address.text, _email.text, _phone.text, widget.person.photo), widget.person.id)
+                          .then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage())))
+                          .onError((error, stackTrace) => print("Errorr"));
+                    },
                     label: Text(
-                      "Download PDF",
+                      "Update",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,
