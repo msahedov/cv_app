@@ -6,7 +6,6 @@ import 'order_screen.dart';
 import 'login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import '../constants/page_routs.dart';
-import 'calendar_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -20,43 +19,189 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   int selectedPage = 0;
   TabController _tabController;
-  PageController _pageController;
-
+  PageController _pageController0;
+  PageController _pageController1;
+  PageController _pageController2;
+  PageController _pageController3;
+  PageController _pageController4;
+  PageController _pageController5;
+  PageController _pageController6;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isSearching = false;
 
-  List<CarItemObject> cars = [
-    CarItemObject(
-        imageName: "assets/images/bmw_sedan.png",
-        carName: "BMW sedan",
-        description:
-            "BMW 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
-        backgroudColor: Colors.black),
-    CarItemObject(
-        imageName: "assets/images/fiat_sedan.png",
-        carName: "Fiat sedan",
-        description:
-            "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
-        backgroudColor: Colors.red),
-    CarItemObject(
-        imageName: "assets/images/honda_sedan.png",
-        carName: "Fiat sedan",
-        description:
-            "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
-        backgroudColor: Colors.red),
-    CarItemObject(
-        imageName: "assets/images/honda.png",
-        carName: "Honda sedan",
-        description:
-            "Honda Civic. ... EPA guidelines for vehicle size class stipulate a car having combined passenger and cargo room of 110 to 119.9 cubic feet (3,110 to 3,400 L) is considered a mid-size car, and as such the tenth generation Civic sedan is technically a small-end mid-size car, although it still competes in the compact class.",
-        backgroudColor: Colors.purple),
+  List<List<CarItemObject>> cars = [
+    //Sedan
+    [
+      CarItemObject(
+          imageName: "assets/images/bmw_sedan.png",
+          carName: "BMW sedan",
+          description:
+              "BMW 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/fiat_sedan.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/honda_sedan.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/honda.png",
+          carName: "Honda sedan",
+          description:
+              "Honda Civic. ... EPA guidelines for vehicle size class stipulate a car having combined passenger and cargo room of 110 to 119.9 cubic feet (3,110 to 3,400 L) is considered a mid-size car, and as such the tenth generation Civic sedan is technically a small-end mid-size car, although it still competes in the compact class.",
+          backgroudColor: Colors.purple),
+    ],
+    //Hatchback
+    [
+      CarItemObject(
+          imageName: "assets/images/hatchback.png",
+          carName: "MAZDA",
+          description:
+              "Mazda. The Mazda is a range of grand tourers produced by Mazda. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/hatcback2.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+    ],
+    //MPV
+    [
+      CarItemObject(
+          imageName: "assets/images/mpv1.png",
+          carName: "BMW ",
+          description:
+              "BMW 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/mpv2.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/mpv3.png",
+          carName: "Honda",
+          description:
+              "Honda Civic. ... EPA guidelines for vehicle size class stipulate a car having combined passenger and cargo room of 110 to 119.9 cubic feet (3,110 to 3,400 L) is considered a mid-size car, and as such the tenth generation Civic sedan is technically a small-end mid-size car, although it still competes in the compact class.",
+          backgroudColor: Colors.purple),
+    ],
+    //SUV
+    [
+      CarItemObject(
+          imageName: "assets/images/suv1.png",
+          carName: "Mercedes",
+          description:
+              "Mercedes 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/suv2.png",
+          carName: "Fiat ",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/suv3.png",
+          carName: "Mazda",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/suv5.png",
+          carName: "Honda ",
+          description:
+              "Honda Civic. ... EPA guidelines for vehicle size class stipulate a car having combined passenger and cargo room of 110 to 119.9 cubic feet (3,110 to 3,400 L) is considered a mid-size car, and as such the tenth generation Civic sedan is technically a small-end mid-size car, although it still competes in the compact class.",
+          backgroudColor: Colors.purple),
+    ],
+    //Crossover
+    [
+      CarItemObject(
+          imageName: "assets/images/hundai_cross.png",
+          carName: "Hundai",
+          description:
+              "Hundai is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/nissan_crossover.png",
+          carName: "Nissan",
+          description:
+              "The Nissan sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/hundai_crossover.png",
+          carName: "Hundai",
+          description:
+              "The Hundai Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/bmv_crossover.png",
+          carName: "BMW",
+          description:
+              "BMW ... EPA guidelines for vehicle size class stipulate a car having combined passenger and cargo room of 110 to 119.9 cubic feet (3,110 to 3,400 L) is considered a mid-size car, and as such the tenth generation Civic sedan is technically a small-end mid-size car, although it still competes in the compact class.",
+          backgroudColor: Colors.purple),
+    ],
+    //Coupe
+    [
+      CarItemObject(
+          imageName: "assets/images/coupe1.png",
+          carName: "BMW sedan",
+          description:
+              "BMW 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/coupe2.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/coupe3.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+    ],
+    //Convertible
+    [
+      CarItemObject(
+          imageName: "assets/images/convertible1.png",
+          carName: "BMW sedan",
+          description:
+              "BMW 8 Series. The BMW 8 Series is a range of grand tourers produced by BMW. The 8 Series was introduced in 1990 under the E31 model code and was only available as a two-door coupé. ... The G15 8 Series introduces an inline-six diesel engine, and a high-performance M8 model is also expected to be launched in the future.",
+          backgroudColor: Colors.black),
+      CarItemObject(
+          imageName: "assets/images/convertible2.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+      CarItemObject(
+          imageName: "assets/images/convertible3.png",
+          carName: "Fiat sedan",
+          description:
+              "The Fiat Tipo sedan is 4532 mm long, 1497 mm tall and 1792 mm wide with a wheelbase of 2638 mm and a five-seat passenger compartment with a 520-litre trunk. The hatchback has the same wheelbase but the bodywork is 4368 mm long, 1495 mm tall and 1792 mm wide. The trunk has a capacity of 440 litres.",
+          backgroudColor: Colors.red),
+    ]
   ];
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(initialIndex: 0, length: 7, vsync: this);
-    _pageController = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController0 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController1 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController2 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController3 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController4 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController5 = PageController(initialPage: 0, viewportFraction: 0.8);
+    _pageController6 = PageController(initialPage: 0, viewportFraction: 0.8);
   }
 
   _makeOrder() {
@@ -72,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     setState(() {});
   }
 
-  Widget _carSelector(int index) {
+  Widget _carSelector(PageController _pageController, int index, List<CarItemObject> _cars) {
     return AnimatedBuilder(
       animation: _pageController,
       builder: (BuildContext context, Widget widget) {
@@ -91,7 +236,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       },
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, FadeRoute(page: CarDetailScreen(car: cars[selectedPage])));
+          Navigator.push(context, FadeRoute(page: CarDetailScreen(car: _cars[selectedPage])));
         },
         child: Stack(
           children: <Widget>[
@@ -103,10 +248,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 children: <Widget>[
                   Center(
                     child: Hero(
-                      tag: cars[index].imageName,
+                      tag: _cars[index].imageName,
                       child: Image(
                         fit: BoxFit.cover,
-                        image: AssetImage(cars[index].imageName),
+                        image: AssetImage(_cars[index].imageName),
                       ),
                     ),
                   ),
@@ -119,7 +264,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           "starting at",
                           style: TextStyle(fontFamily: titleFont, color: Colors.white, fontWeight: FontWeight.bold),
                         ),
-                        Text(cars[index].carPrice, style: TextStyle(fontFamily: descFont, color: Colors.white)),
+                        Text(_cars[index].carPrice, style: TextStyle(fontFamily: descFont, color: Colors.white)),
                       ],
                     ),
                   ),
@@ -128,7 +273,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                     left: 20,
                     child: Column(
                       children: <Widget>[
-                        Text(cars[index].carName, style: TextStyle(fontFamily: titleFont, color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
+                        Text(_cars[index].carName, style: TextStyle(fontFamily: titleFont, color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold)),
                       ],
                     ),
                   )
@@ -252,166 +397,131 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                   physics: NeverScrollableScrollPhysics(),
                   controller: _tabController,
                   children: [
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.black,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.black,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.black,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.black,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.black,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.red,
-                    // ),
-                    // Container(
-                    //   height: 450,
-                    //   width: double.infinity,
-                    //   color: Colors.blue,
-                    // ),
-
+                    //Sedan
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController0,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[0].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController0, index, cars[0]);
                         },
                       ),
                     ),
+
+                    //Hatchback
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController1,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[1].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController1, index, cars[1]);
                         },
                       ),
                     ),
-                    // ///
+
+                    //MPV
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController2,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[2].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController2, index, cars[2]);
                         },
                       ),
                     ),
 
-                    // ///
-
+                    //SUV
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController3,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[3].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController3, index, cars[3]);
                         },
                       ),
                     ),
 
-                    // ///
+                    //Crossover
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController4,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[4].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController4, index, cars[4]);
                         },
                       ),
                     ),
 
-                    ///
+                    //Coupe
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController5,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[5].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController5, index, cars[5]);
                         },
                       ),
                     ),
 
-                    // ///
+                    //Convertible
                     Container(
                       height: 450,
                       width: double.infinity,
                       child: PageView.builder(
-                        controller: _pageController,
+                        controller: _pageController6,
                         onPageChanged: (int index) {
                           setState(() {
                             this.selectedPage = index;
                           });
                         },
-                        itemCount: cars.length,
+                        itemCount: cars[6].length,
                         itemBuilder: (BuildContext context, int index) {
-                          return _carSelector(index);
+                          return _carSelector(_pageController6, index, cars[6]);
                         },
                       ),
                     ),
-
-                    ///
                   ],
                 ),
               ),
@@ -422,7 +532,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  cars[selectedPage].description,
+                  cars[0][selectedPage].description,
                   style: TextStyle(fontFamily: descFont, fontSize: 18),
                 ),
               )
@@ -467,7 +577,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[selectedPage])));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[0][selectedPage])));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15.0, top: 20),
@@ -476,7 +586,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[selectedPage])));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[0][selectedPage])));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15.0, top: 20),
@@ -485,7 +595,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               ),
               InkWell(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[selectedPage])));
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => CarDetailScreen(car: cars[0][selectedPage])));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(left: 15.0, top: 20),
@@ -603,14 +713,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             ),
           ) // trailing comma makes auto-formatting nicer for build methods.
           ),
-    );
-  }
-
-  _switchToCalendar() {
-    Navigator.of(context).push(
-      FadeRoute(
-        page: CalendarScreen(),
-      ),
     );
   }
 }

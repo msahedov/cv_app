@@ -61,5 +61,9 @@
 			<action android:name="android.provider.Telephony.SMS_RECEIVED"/>
 		    </intent-filter>
 		</receiver>
+    <activity 
+       android:name="com.yalantis.ucrop.UCropActivity"
+       android:screenOrientation="portrait"
+       android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 </manifest>

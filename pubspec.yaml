@@ -18,10 +18,21 @@ dependencies:
   loading_indicator: ^1.1.0
   table_calendar: ^2.1.0 
   font_awesome_flutter: ^9.2.0
+  intl: ^0.15.8
+  rxdart: ^0.22.0
+  image_cropper: ^1.0.2
   flutter_full_pdf_viewer: 
+  wc_flutter_share: ^0.4.0
 dev_dependencies:
+
   flutter_test: 
     sdk: flutter
+  flutter_launcher_icons:
+
+flutter_icons:
+  image_path: "assets/icons.png"
+  android: true
+  ios: true
 
 flutter:
   
@@ -29,6 +40,7 @@ flutter:
   assets:
     - assets/fonts/person.png 
     - assets/images/
+    - assets/
    
   fonts:
     - family: Bellota_Bold

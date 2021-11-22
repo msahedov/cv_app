@@ -32,6 +32,21 @@ class OrderScreenState extends State<OrderScreen> with SingleTickerProviderState
         indicatorType: Indicator.ballPulse,
         color: Colors.white,
       );
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          loadingWidget = SizedBox(
+            height: 1,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            "Car succesfully ordered to the address",
+            style: TextStyle(fontFamily: descFont, fontSize: 18, color: Colors.blue),
+          )));
+          Future.delayed(Duration(seconds: 5), () {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MyHomePage()));
+          });
+        });
+      });
     } else {
       loadingWidget = SizedBox(
         height: 1,
